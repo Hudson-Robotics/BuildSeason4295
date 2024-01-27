@@ -1,10 +1,13 @@
 package frc.robot.subsystems.DriveTrain;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -28,34 +31,41 @@ public class DriveTrain extends SubsystemBase {
             backLeftLocation, backRightLocation);
 
     private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(
-        kinematics,
-         navX.getRotation2d(),
-         );
+            kinematics,
+            navX.getRotation2d(),
+            getSwerveModulePositions());
 
     public DriveTrain() {
-        super();
     }
 
-private SwerveModulePosition[] getSwerveModulePositions() {
-return new SwerveModulePosition[]{
-    frontLeft.getPosition(),
-    frontRight.getPosition(),
-    backLeft.getPosition(),
-    backRight.getSgetPositiontate()}
-}
+    private SwerveModulePosition[] getSwerveModulePositions() {
+        return new SwerveModulePosition[] {
+                frontLeft.getPosition(),
+                frontRight.getPosition(),
+                backLeft.getPosition(),
+                backRight.getPosition() };
+    }
 
-    public void drive(double xSpeed, double ySpeed, double rot) {
-        SwerveModulePosition[] swerveModulePositions = getSwerveModulePositions();
-        SwerveDriveKinematics.normalizeWheelSpeeds(swerveModulePositions, 3);
-        SwerveDriveKinematics.calculateSwerveModuleStates(xSpeed, ySpeed, rot, swerveModulePositions, 3);
-        frontLeft.setDesiredState(swerveModulePositions[0]);
-        frontRight.setDesiredState(swerveModulePositions[1]);
-        backLeft.setDesiredState(swerveModulePositions[2]);
-        backRight.setDesiredState(swerveModulePositions[3]);
+    public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+        var swerveModuleStates = kinematics.toSwerveModuleStates(
+                fieldRelative
+                        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, navX.getRotation2d())
+                        : new ChassisSpeeds(xSpeed, ySpeed, rot));
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, 9);
+
+        frontLeft.setDesiredState(swerveModuleStates[0]);
+        frontRight.setDesiredState(swerveModuleStates[1]);
+        backLeft.setDesiredState(swerveModuleStates[2]);
+        backRight.setDesiredState(swerveModuleStates[3]);
+
+        SmartDashboard.putNumber("xSpeed", xSpeed);
+        SmartDashboard.putNumber("ySpeed", ySpeed);
+        SmartDashboard.putNumber("rot", rot);
+        SmartDashboard.putBoolean("fieldRelative", fieldRelative);
     }
 
     public void resetOdometry() {
-        odometry.resetPosition(navX.getRotation2d(), new Pose2d());
+        odometry.resetPosition(navX.getRotation2d(), getSwerveModulePositions(), new Pose2d());
     }
 
     public Pose2d getPose() {
@@ -81,4 +91,13 @@ return new SwerveModulePosition[]{
         // This method will be called once per scheduler run
     }
 
+    public void updateOdometry() {
+        odometry.update(navX.getRotation2d(),getSwerveModulePositions());
+    
+        SmartDashboard.putString("NavX", navX.getRotation2d().toString());
+        SmartDashboard.putString("FrontLeftAngle", frontLeft.getState().toString());
+        SmartDashboard.putString("FrontRightAngle", frontRight.getState().toString());
+        SmartDashboard.putString("BackLeftAngle", backLeft.getState().toString());
+        SmartDashboard.putString("BackRightAngle", backRight.getState().toString());
+      }
 }
