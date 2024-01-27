@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -31,7 +32,8 @@ public class NeoSwerve {
     public NeoSwerve(int driveMotorCanbusAddress, int turningMotorCanbusAddress, String Name) {
         turningMotor = new CANSparkMax(turningMotorCanbusAddress, MotorType.kBrushless);
         altTurningEncoder = turningMotor.getAlternateEncoder(kAltEncType, 4096);
-        //altTurningEncoder.setPositionConversionFactor(CONVERSION_FACTOR) TODO: Figure Out a Conversion Factor
+        // altTurningEncoder.setPositionConversionFactor(CONVERSION_FACTOR) TODO: Figure
+        // Out a Conversion Factor
 
         driveMotor = new CANSparkMax(turningMotorCanbusAddress, MotorType.kBrushless);
         driveEncoder = driveMotor.getEncoder();
@@ -46,8 +48,7 @@ public class NeoSwerve {
     }
 
     private double getSpeed() {
-        double WHEEL_RADIUS_IN_METERS = 0.0508; //TODO: Move this to Constants.java
-        double circumference = 2 * Math.PI * WHEEL_RADIUS_IN_METERS;
+        double circumference = 2 * Math.PI * Constants.WHEEL_RADIUS_IN_METERS;
         return driveEncoder.getVelocity() / (circumference / 60);
     }
 
@@ -55,8 +56,8 @@ public class NeoSwerve {
         return new SwerveModuleState(getSpeed(), getAngle());
     }
 
-    public SwerveModulePosition getPosition(){
-        return new SwerveModulePosition(0,  getAngle());
+    public SwerveModulePosition getPosition() {
+        return new SwerveModulePosition(0, getAngle());
     }
 
     public void setDesiredState(SwerveModuleState desiredState) {
