@@ -30,6 +30,7 @@ public class NeoSwerve {
     public NeoSwerve(int driveMotorCanbusAddress, int turningMotorCanbusAddress, String Name) {
         turningMotor = new CANSparkMax(turningMotorCanbusAddress, MotorType.kBrushless);
         altTurningEncoder = turningMotor.getAlternateEncoder(kAltEncType, 4096);
+        //altTurningEncoder.setPositionConversionFactor(CONVERSION_FACTOR) TODO: Figure Out a Conversion Factor
 
         driveMotor = new CANSparkMax(turningMotorCanbusAddress, MotorType.kBrushless);
         driveEncoder = driveMotor.getEncoder();
@@ -44,7 +45,9 @@ public class NeoSwerve {
     }
 
     private double getSpeed() {
-        return driveEncoder.getVelocity() / 2 * Math.PI * 0.0508 / 60;
+        double WHEEL_RADIUS_IN_METERS = 0.0508; //TODO: Move this to Constants.java
+        double circumference = 2 * Math.PI * WHEEL_RADIUS_IN_METERS;
+        return driveEncoder.getVelocity() / (circumference / 60);
     }
 
     public SwerveModuleState getState() {
