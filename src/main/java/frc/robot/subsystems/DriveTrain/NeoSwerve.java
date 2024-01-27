@@ -4,9 +4,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAlternateEncoder;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -14,7 +16,6 @@ public class NeoSwerve {
     private String Name;
 
     private CANSparkMax turningMotor;
-    private RelativeEncoder turningEncoder;
     private RelativeEncoder altTurningEncoder;
     private PIDController turningPID;
     private double kP = 0.5;
@@ -28,7 +29,6 @@ public class NeoSwerve {
 
     public NeoSwerve(int driveMotorCanbusAddress, int turningMotorCanbusAddress, String Name) {
         turningMotor = new CANSparkMax(turningMotorCanbusAddress, MotorType.kBrushless);
-        turningEncoder = turningMotor.getEncoder();
         altTurningEncoder = turningMotor.getAlternateEncoder(kAltEncType, 4096);
 
         driveMotor = new CANSparkMax(turningMotorCanbusAddress, MotorType.kBrushless);
@@ -57,7 +57,12 @@ public class NeoSwerve {
         driveMotor.set(optomized.speedMetersPerSecond / 3);
 
         double turningSpeed = turningPID.calculate(getAngle().getRadians(), optomized.angle.getRadians());
-
+        MathUtil.clamp(turningSpeed, -0.4, 0.4);
         turningMotor.set(turningSpeed);
+
+        SmartDashboard.putNumber(Name + " Optomized Wheel Speed", optomized.speedMetersPerSecond);
+        SmartDashboard.putNumber(Name + " Optomized Wheel Angle", optomized.angle.getRadians());
+        SmartDashboard.putNumber(Name + " Output", turningSpeed);
+        SmartDashboard.putNumber(Name + " Postion Error", turningPID.getPositionError());
     }
 }
