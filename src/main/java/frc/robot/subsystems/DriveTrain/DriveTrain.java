@@ -27,8 +27,7 @@ public class DriveTrain extends SubsystemBase {
     private final NeoSwerve backRight = new NeoSwerve(7, 8, "Back Right");
 
     private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
-            frontLeftLocation, frontRightLocation,
-            backLeftLocation, backRightLocation);
+            frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation);
 
     private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(
             kinematics,
@@ -36,6 +35,7 @@ public class DriveTrain extends SubsystemBase {
             getSwerveModulePositions());
 
     public DriveTrain() {
+        navX.reset();
     }
 
     private SwerveModulePosition[] getSwerveModulePositions() {
@@ -68,9 +68,9 @@ public class DriveTrain extends SubsystemBase {
         odometry.resetPosition(navX.getRotation2d(), getSwerveModulePositions(), new Pose2d());
     }
 
-    public Pose2d getPose() {
-        return odometry.getPoseMeters();
-    }
+    // public Pose2d getPose() {
+    //     return odometry.getPoseMeters();
+    // }
 
     public Command exampleMethodCommand() {
         // Inline construction of command goes here.
@@ -92,12 +92,12 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void updateOdometry() {
-        odometry.update(navX.getRotation2d(),getSwerveModulePositions());
-    
+        odometry.update(navX.getRotation2d(), getSwerveModulePositions());
+
         SmartDashboard.putString("NavX", navX.getRotation2d().toString());
         SmartDashboard.putString("FrontLeftAngle", frontLeft.getState().toString());
         SmartDashboard.putString("FrontRightAngle", frontRight.getState().toString());
         SmartDashboard.putString("BackLeftAngle", backLeft.getState().toString());
         SmartDashboard.putString("BackRightAngle", backRight.getState().toString());
-      }
+    }
 }
