@@ -29,13 +29,13 @@ public class NeoSwerve {
 
     private static final SparkMaxAlternateEncoder.Type kAltEncType = SparkMaxAlternateEncoder.Type.kQuadrature;
 
-    public NeoSwerve(int driveMotorCanbusAddress, int turningMotorCanbusAddress, String Name) {
+    public NeoSwerve(int turningMotorCanbusAddress, int driveMotorCanbusAddress, String Name) {
         turningMotor = new CANSparkMax(turningMotorCanbusAddress, MotorType.kBrushless);
         altTurningEncoder = turningMotor.getAlternateEncoder(kAltEncType, 4096);
         // altTurningEncoder.setPositionConversionFactor(CONVERSION_FACTOR) TODO: Figure
         // Out a Conversion Factor
 
-        driveMotor = new CANSparkMax(turningMotorCanbusAddress, MotorType.kBrushless);
+        driveMotor = new CANSparkMax(driveMotorCanbusAddress, MotorType.kBrushless);
         driveEncoder = driveMotor.getEncoder();
 
         this.Name = Name;
@@ -44,7 +44,7 @@ public class NeoSwerve {
     }
 
     private Rotation2d getAngle() {
-        return new Rotation2d(altTurningEncoder.getPosition() * Math.PI);
+        return new Rotation2d(altTurningEncoder.getPosition() * 2 * Math.PI);
     }
 
     private double getSpeed() {
@@ -73,5 +73,11 @@ public class NeoSwerve {
         SmartDashboard.putNumber(Name + " Optomized Wheel Angle", optomized.angle.getRadians());
         SmartDashboard.putNumber(Name + " Output", turningSpeed);
         SmartDashboard.putNumber(Name + " Postion Error", turningPID.getPositionError());
+    }
+
+    public void Reset() {
+        altTurningEncoder.setPosition(0);
+        driveEncoder.setPosition(0);
+        System.out.println("Resetting " + Name);
     }
 }

@@ -46,6 +46,8 @@ public class DriveTrain extends SubsystemBase {
                 backRight.getPosition() };
     }
 
+  
+
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
         var swerveModuleStates = kinematics.toSwerveModuleStates(
                 fieldRelative
@@ -72,12 +74,15 @@ public class DriveTrain extends SubsystemBase {
     //     return odometry.getPoseMeters();
     // }
 
-    public Command exampleMethodCommand() {
+    public Command Home() {
         // Inline construction of command goes here.
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    /* one-time action goes here */
+                    frontLeft.Reset();
+                    frontRight.Reset();
+                    backLeft.Reset();
+                    backRight.Reset();
                 });
     }
 
