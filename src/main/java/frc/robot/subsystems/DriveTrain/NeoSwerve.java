@@ -32,8 +32,6 @@ public class NeoSwerve {
     public NeoSwerve(int turningMotorCanbusAddress, int driveMotorCanbusAddress, String Name) {
         turningMotor = new CANSparkMax(turningMotorCanbusAddress, MotorType.kBrushless);
         altTurningEncoder = turningMotor.getAlternateEncoder(kAltEncType, 4096);
-        // altTurningEncoder.setPositionConversionFactor(CONVERSION_FACTOR) TODO: Figure
-        // Out a Conversion Factor
 
         driveMotor = new CANSparkMax(driveMotorCanbusAddress, MotorType.kBrushless);
         driveEncoder = driveMotor.getEncoder();
@@ -66,18 +64,22 @@ public class NeoSwerve {
         driveMotor.set(optomized.speedMetersPerSecond / 3);
 
         double turningSpeed = turningPID.calculate(getAngle().getRadians(), optomized.angle.getRadians());
-        MathUtil.clamp(turningSpeed, -0.4, 0.4);
+        MathUtil.clamp(turningSpeed, -0.25, 0.25);
         turningMotor.set(turningSpeed);
 
         SmartDashboard.putNumber(Name + " Optomized Wheel Speed", optomized.speedMetersPerSecond);
         SmartDashboard.putNumber(Name + " Optomized Wheel Angle", optomized.angle.getRadians());
         SmartDashboard.putNumber(Name + " Output", turningSpeed);
         SmartDashboard.putNumber(Name + " Postion Error", turningPID.getPositionError());
+
+        SmartDashboard.putNumber(Name + " Alternate Encoder", altTurningEncoder.getPosition() * Math.PI);
+
     }
 
     public void Reset() {
+        System.out.println("Initial " + Name + " Encoder @ " + altTurningEncoder.getPosition());
         altTurningEncoder.setPosition(0);
         driveEncoder.setPosition(0);
-        System.out.println("Resetting " + Name);
+        System.out.println("Resetting " + Name + " Encoder @ " + altTurningEncoder.getPosition());
     }
 }

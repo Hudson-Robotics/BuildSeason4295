@@ -16,8 +16,8 @@ import com.kauailabs.navx.frc.AHRS;
 public class DriveTrain extends SubsystemBase {
     private final AHRS navX = new AHRS(SPI.Port.kMXP);
 
-    private final Translation2d frontLeftLocation = new Translation2d(0.381, 0.381);
-    private final Translation2d frontRightLocation = new Translation2d(0.381, -0.381);
+    private final Translation2d frontLeftLocation = new Translation2d(0.381, -0.381);
+    private final Translation2d frontRightLocation = new Translation2d(0.381, 0.381);
     private final Translation2d backLeftLocation = new Translation2d(-0.381, 0.381);
     private final Translation2d backRightLocation = new Translation2d(-0.381, -0.381);
 
@@ -74,16 +74,23 @@ public class DriveTrain extends SubsystemBase {
     //     return odometry.getPoseMeters();
     // }
 
-    public Command Home() {
-        // Inline construction of command goes here.
-        // Subsystem::RunOnce implicitly requires `this` subsystem.
-        return runOnce(
-                () -> {
-                    frontLeft.Reset();
-                    frontRight.Reset();
-                    backLeft.Reset();
-                    backRight.Reset();
-                });
+    // public Command Home() {
+    //     // Inline construction of command goes here.
+    //     // Subsystem::RunOnce implicitly requires `this` subsystem.
+    //     return runOnce(
+    //             () -> {
+    //                 frontLeft.Reset();
+    //                 frontRight.Reset();
+    //                 backLeft.Reset();
+    //                 backRight.Reset();
+    //             });
+    // }
+
+    public void Home() {
+        frontLeft.Reset();
+        frontRight.Reset();
+        backLeft.Reset();
+        backRight.Reset();
     }
 
     public boolean exampleCondition() {
