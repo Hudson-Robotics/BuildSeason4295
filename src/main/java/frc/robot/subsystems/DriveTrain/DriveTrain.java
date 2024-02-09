@@ -46,8 +46,6 @@ public class DriveTrain extends SubsystemBase {
                 backRight.getPosition() };
     }
 
-  
-
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
         var swerveModuleStates = kinematics.toSwerveModuleStates(
                 fieldRelative
@@ -71,19 +69,19 @@ public class DriveTrain extends SubsystemBase {
     }
 
     // public Pose2d getPose() {
-    //     return odometry.getPoseMeters();
+    // return odometry.getPoseMeters();
     // }
 
     // public Command Home() {
-    //     // Inline construction of command goes here.
-    //     // Subsystem::RunOnce implicitly requires `this` subsystem.
-    //     return runOnce(
-    //             () -> {
-    //                 frontLeft.Reset();
-    //                 frontRight.Reset();
-    //                 backLeft.Reset();
-    //                 backRight.Reset();
-    //             });
+    // // Inline construction of command goes here.
+    // // Subsystem::RunOnce implicitly requires `this` subsystem.
+    // return runOnce(
+    // () -> {
+    // frontLeft.Reset();
+    // frontRight.Reset();
+    // backLeft.Reset();
+    // backRight.Reset();
+    // });
     // }
 
     public void Home() {
@@ -100,7 +98,7 @@ public class DriveTrain extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
+        updateOdometry();
     }
 
     public void updateOdometry() {
@@ -111,5 +109,10 @@ public class DriveTrain extends SubsystemBase {
         SmartDashboard.putString("FrontRightAngle", frontRight.getState().toString());
         SmartDashboard.putString("BackLeftAngle", backLeft.getState().toString());
         SmartDashboard.putString("BackRightAngle", backRight.getState().toString());
+
+        frontLeft.updateOdometry();
+        frontRight.updateOdometry();
+        backLeft.updateOdometry();
+        backRight.updateOdometry();
     }
 }

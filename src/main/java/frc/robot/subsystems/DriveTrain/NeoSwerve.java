@@ -69,11 +69,13 @@ public class NeoSwerve {
 
         SmartDashboard.putNumber(Name + " Optomized Wheel Speed", optomized.speedMetersPerSecond);
         SmartDashboard.putNumber(Name + " Optomized Wheel Angle", optomized.angle.getRadians());
-        SmartDashboard.putNumber(Name + " Output", turningSpeed);
+    }
+
+    public void updateOdometry() {
+        SmartDashboard.putNumber(Name + " Output", turningMotor.get());
         SmartDashboard.putNumber(Name + " Postion Error", turningPID.getPositionError());
 
-        SmartDashboard.putNumber(Name + " Alternate Encoder", altTurningEncoder.getPosition() * Math.PI);
-
+        SmartDashboard.putNumber(Name + " Alternate Encoder", altTurningEncoder.getPosition() * Math.PI * 2);
     }
 
     public void Reset() {

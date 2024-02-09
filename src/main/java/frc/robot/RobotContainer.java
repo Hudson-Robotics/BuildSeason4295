@@ -38,13 +38,13 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    driveTrain.Home();
+    // driveTrain.Home();
     driveTrain.setDefaultCommand(
-      new RunCommand(() -> driveTrain.drive(
-        xboxController.getLeftX(),
-        xboxController.getLeftY(),
-         xboxController.getRightX(),
-          false), driveTrain));
+        new RunCommand(() -> driveTrain.drive(
+            -xboxController.getLeftY(),
+            xboxController.getLeftX(),
+            -xboxController.getRightX(),
+            false), driveTrain));
   }
 
   /**
@@ -69,7 +69,7 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,
     // cancelling on release.
-    //xboxController.b().whileTrue(driveTrain.Home());
+    // xboxController.b().whileTrue(driveTrain.Home());
   }
 
   /**
