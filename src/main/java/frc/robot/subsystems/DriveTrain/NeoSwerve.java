@@ -28,6 +28,7 @@ public class NeoSwerve {
     private RelativeEncoder driveEncoder;
 
     private static final SparkMaxAlternateEncoder.Type kAltEncType = SparkMaxAlternateEncoder.Type.kQuadrature;
+    double circumference = 2 * Math.PI * Constants.WHEEL_RADIUS_IN_METERS;
 
     public NeoSwerve(int turningMotorCanbusAddress, int driveMotorCanbusAddress, String Name) {
         turningMotor = new CANSparkMax(turningMotorCanbusAddress, MotorType.kBrushless);
@@ -39,6 +40,7 @@ public class NeoSwerve {
         this.Name = Name;
 
         turningPID = new PIDController(kP, kI, kD);
+        turningPID.enableContinuousInput(-Math.PI, Math.PI);
     }
 
     private Rotation2d getAngle() {
@@ -46,8 +48,13 @@ public class NeoSwerve {
     }
 
     private double getSpeed() {
-        double circumference = 2 * Math.PI * Constants.WHEEL_RADIUS_IN_METERS;
+
         return driveEncoder.getVelocity() / (circumference / 60);
+    }
+
+    public double getDistance() {
+        double circumference = 2 * Math.PI * Constants.WHEEL_RADIUS_IN_METERS;
+        return driveEncoder.getPosition() / circumference;
     }
 
     public SwerveModuleState getState() {
@@ -59,6 +66,10 @@ public class NeoSwerve {
     }
 
     public void setDesiredState(SwerveModuleState desiredState) {
+        if (Math.abs(desiredState.speedMetersPerSecond) < 0.1) {
+            stop();
+            return;
+        }
         SwerveModuleState optomized = SwerveModuleState.optimize(desiredState, getAngle());
 
         driveMotor.set(optomized.speedMetersPerSecond / 3);
@@ -69,6 +80,11 @@ public class NeoSwerve {
 
         SmartDashboard.putNumber(Name + " Optomized Wheel Speed", optomized.speedMetersPerSecond);
         SmartDashboard.putNumber(Name + " Optomized Wheel Angle", optomized.angle.getRadians());
+    }
+
+    public void stop() {
+        turningMotor.set(0);
+        driveMotor.set(0);
     }
 
     public void updateOdometry() {
@@ -83,5 +99,9 @@ public class NeoSwerve {
         altTurningEncoder.setPosition(0);
         driveEncoder.setPosition(0);
         System.out.println("Resetting " + Name + " Encoder @ " + altTurningEncoder.getPosition());
+    }
+
+    public void ResetDistance() {
+        driveEncoder.setPosition(0);
     }
 }
