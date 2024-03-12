@@ -9,6 +9,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.Ports;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -20,10 +21,10 @@ public class DriveTrain extends SubsystemBase {
     private final Translation2d backLeftLocation = new Translation2d(-0.381, 0.381);
     private final Translation2d backRightLocation = new Translation2d(-0.381, -0.381);
 
-    private final NeoSwerve frontLeft = new NeoSwerve(1, 2, "Front Left");
-    private final NeoSwerve frontRight = new NeoSwerve(3, 4, "Front Right");
-    private final NeoSwerve backLeft = new NeoSwerve(5, 6, "Back Left");
-    private final NeoSwerve backRight = new NeoSwerve(7, 8, "Back Right");
+    private final NeoSwerve frontLeft = new NeoSwerve(Ports.kFrontLeftTurning, Ports.kFrontLeftDrive, "Front Left");
+    private final NeoSwerve frontRight = new NeoSwerve(Ports.kFrontRightTurning, Ports.kFrontRightDrive, "Front Right");
+    private final NeoSwerve backLeft = new NeoSwerve(Ports.kBackLeftTurning, Ports.kBackLeftDrive, "Back Left");
+    private final NeoSwerve backRight = new NeoSwerve(Ports.kBackRightTurning, Ports.kBackRightDrive, "Back Right");
 
     private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
             frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation);

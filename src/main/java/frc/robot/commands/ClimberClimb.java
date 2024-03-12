@@ -20,12 +20,14 @@ public class ClimberClimb extends Command {
   public ClimberClimb(Climber subsystem) {
     this.subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+     addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    subsystem.Climb();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

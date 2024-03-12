@@ -4,13 +4,34 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.ClimberStop;
+import frc.robot.Constants.Ports;
 
 public class Climber extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
-  public Climber() {}
 
+  private final CANSparkMax climberLeft = new CANSparkMax(Ports.kClimberLeft, CANSparkMax.MotorType.kBrushless);
+  private final CANSparkMax climberRight = new CANSparkMax(Ports.kClimberRight, CANSparkMax.MotorType.kBrushless);
+  public Climber() {
+    climberRight.setInverted(true);
+    setDefaultCommand(new ClimberStop(this));
+  }
+
+  public void Stop() {
+    climberLeft.set(0);
+    climberRight.set(0);
+  }
+  public void Climb() {
+    climberLeft.set(0.1);
+    climberRight.set(0.1);
+  }
+
+  public void Extend() {
+    climberLeft.set(-0.1);
+    climberRight.set(-0.1);
+  }
   /**
    * Example command factory method.
    *

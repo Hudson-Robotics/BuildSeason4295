@@ -1,32 +1,37 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.Ports;
+import frc.robot.commands.ArmStop;
 
 public class Arm extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
-  public Arm() {}
+  private final CANSparkMax leftArmMotor = new CANSparkMax(Ports.kArmLeft, CANSparkMax.MotorType.kBrushless);
+  private final CANSparkMax rightArmMotor = new CANSparkMax(Ports.kArmRight, CANSparkMax.MotorType.kBrushless);
 
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
+  public Arm() {
+    rightArmMotor.setInverted(true);
+    setDefaultCommand(new ArmStop(this));
+  }
+
+  public void Stop() {
+    leftArmMotor.set(0);
+    rightArmMotor.set(0);
+  }
+
+  public void Forward() {
+    leftArmMotor.set(0.1);
+    rightArmMotor.set(0.1);
+  }
+
+  public void Reverse() {
+    leftArmMotor.set(-0.1);
+    rightArmMotor.set(-0.1);
   }
 
   /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
+   * An example method querying a boolean state of the subsystem (for example, a
+   * digital sensor).
    *
    * @return value of some boolean subsystem state, such as a digital sensor.
    */

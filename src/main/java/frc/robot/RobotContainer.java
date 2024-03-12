@@ -1,6 +1,6 @@
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.Ports;
 import frc.robot.commands.ArmForward;
 import frc.robot.commands.ArmReverse;
 import frc.robot.commands.ClimberClimb;
@@ -25,7 +25,7 @@ public class RobotContainer {
   private final Arm arm = new Arm();
 
   private final CommandXboxController xboxController = new CommandXboxController(
-      OperatorConstants.kDriverControllerPort);
+      Ports.kDriverControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
