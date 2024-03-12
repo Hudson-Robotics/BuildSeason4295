@@ -4,14 +4,14 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
+import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Ports;
 import frc.robot.commands.IntakeStop;
 
 public class Intake extends SubsystemBase {
-  private final CANSparkMax intakeMotor = new CANSparkMax(Ports.kIntake, CANSparkMax.MotorType.kBrushless);
+  private final TalonFX intakeMotor = new TalonFX(Ports.kIntake);
   public Intake() {
     setDefaultCommand(new IntakeStop(this));
   }

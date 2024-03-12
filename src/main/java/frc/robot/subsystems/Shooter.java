@@ -1,13 +1,13 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
+import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Ports;
 import frc.robot.commands.ShooterStop;
 
 public class Shooter extends SubsystemBase {
-  private final CANSparkMax shooterMotor = new CANSparkMax(Ports.kShooter, CANSparkMax.MotorType.kBrushless);
+  private final TalonFX shooterMotor = new TalonFX(Ports.kShooter);
 
   public Shooter() {
     setDefaultCommand(new ShooterStop(this));
