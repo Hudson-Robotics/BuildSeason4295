@@ -24,7 +24,7 @@ public class RobotContainer {
   private final Intake intake = new Intake();
   private final Arm arm = new Arm();
 
-  private final CommandXboxController xboxController = new CommandXboxController(
+  public final static CommandXboxController xboxController = new CommandXboxController(
       Ports.kDriverControllerPort);
 
   /**
