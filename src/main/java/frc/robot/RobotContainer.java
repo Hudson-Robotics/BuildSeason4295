@@ -6,6 +6,9 @@ import frc.robot.commands.ArmReverse;
 import frc.robot.commands.ClimberClimb;
 import frc.robot.commands.ClimberExtend;
 import frc.robot.commands.IntakeLoad;
+import frc.robot.commands.IntakeReverse;
+import frc.robot.commands.IntakeUnload;
+import frc.robot.commands.ShooterReverse;
 import frc.robot.commands.ShooterShoot;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
@@ -48,13 +51,15 @@ public class RobotContainer {
     Trigger shoot = xboxController.x();
     Trigger forward = xboxController.y();
     Trigger reverse = xboxController.a();
+    Trigger intakeReverse = xboxController.pov(180);
 
     retract.whileTrue(new ClimberClimb(climber));
     extend.whileTrue(new ClimberExtend(climber));
     load.whileTrue(new IntakeLoad(intake));
-    shoot.whileTrue(new ShooterShoot(shooter));
+    shoot.whileTrue(new ShooterShoot(shooter)).whileTrue(new IntakeUnload(intake));
     forward.whileTrue(new ArmForward(arm));
     reverse.whileTrue(new ArmReverse(arm));
+    intakeReverse.whileTrue(new IntakeReverse(intake)).whileTrue(new ShooterReverse(shooter));
 
   }
 

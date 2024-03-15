@@ -24,13 +24,13 @@ public class Climber extends SubsystemBase {
     climberRight.set(0);
   }
   public void Climb() {
-    climberLeft.set(0.1);
-    climberRight.set(0.1);
+    climberLeft.set(0.5);
+    climberRight.set(0.5);
   }
 
   public void Extend() {
-    climberLeft.set(-0.1);
-    climberRight.set(-0.1);
+    climberLeft.set(-0.5);
+    climberRight.set(-0.5);
   }
   /**
    * Example command factory method.

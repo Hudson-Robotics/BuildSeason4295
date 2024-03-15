@@ -26,8 +26,8 @@ public final class Constants {
     public static final int kIntake = 13;
     public static final int kShooter = 14;
 
-    public static final int kBackSwitch = 0;
-    public static final int kForwardSwitch = 1;
+    public static final int kBackSwitch = 1;
+    public static final int kForwardSwitch = 0;
   }
 
   public static final double WHEEL_RADIUS_IN_METERS = 0.0508;

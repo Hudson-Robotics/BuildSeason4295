@@ -14,11 +14,15 @@ public class Shooter extends SubsystemBase {
   }
 
   public void Shoot() {
-    shooterMotor.set(0.1);
+    shooterMotor.set(0.5);
   }
 
   public void Stop() {
     shooterMotor.set(0);
+  }
+
+  public void Reverse() {
+    shooterMotor.set(-.4);
   }
 
   /**

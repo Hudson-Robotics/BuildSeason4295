@@ -20,7 +20,13 @@ public class Intake extends SubsystemBase {
     intakeMotor.set(0);
   }
   public void Load() {
-    intakeMotor.set(0.1);
+    intakeMotor.set(0.4);
+  }
+  public void Unload(){
+    intakeMotor.set(0.4);
+  }
+  public void Reverse(){
+    intakeMotor.set(-.3);
   }
   /**
    * Example command factory method.

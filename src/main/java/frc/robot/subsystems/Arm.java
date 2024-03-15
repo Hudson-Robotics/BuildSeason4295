@@ -25,18 +25,18 @@ public class Arm extends SubsystemBase {
   }
 
   public void Forward() {
-    if (!FullyForward()) {
-      leftArmMotor.set(0.1);
-      rightArmMotor.set(0.1);
+    if (FullyForward()) {
+      leftArmMotor.set(-0.075);
+      rightArmMotor.set(-0.075);
     } else {
       Rumble rumble = new Rumble(1, 1);
     }
   }
 
   public void Reverse() {
-    if (!FullyBack()) {
-      leftArmMotor.set(-0.1);
-      rightArmMotor.set(-0.1);
+    if (FullyBack()) {
+      leftArmMotor.set(0.05);
+      rightArmMotor.set(0.05);
     } else {
       Rumble rumble = new Rumble(1, 1);
     }
