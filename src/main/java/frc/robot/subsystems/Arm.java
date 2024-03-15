@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.Ports;
+import frc.robot.Constants.*;
 import frc.robot.commands.ArmStop;
 import frc.robot.commands.Rumble;
 
@@ -26,8 +26,8 @@ public class Arm extends SubsystemBase {
 
   public void Forward() {
     if (FullyForward()) {
-      leftArmMotor.set(-0.075);
-      rightArmMotor.set(-0.075);
+      leftArmMotor.set(-Speeds.kArmForward);
+      rightArmMotor.set(-Speeds.kArmForward);
     } else {
       Rumble rumble = new Rumble(1, 1);
     }
@@ -35,8 +35,8 @@ public class Arm extends SubsystemBase {
 
   public void Reverse() {
     if (FullyBack()) {
-      leftArmMotor.set(0.05);
-      rightArmMotor.set(0.05);
+      leftArmMotor.set(Speeds.kArmReverse);
+      rightArmMotor.set(Speeds.kArmReverse);
     } else {
       Rumble rumble = new Rumble(1, 1);
     }

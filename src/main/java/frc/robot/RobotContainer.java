@@ -1,19 +1,8 @@
 package frc.robot;
 
 import frc.robot.Constants.Ports;
-import frc.robot.commands.ArmForward;
-import frc.robot.commands.ArmReverse;
-import frc.robot.commands.ClimberClimb;
-import frc.robot.commands.ClimberExtend;
-import frc.robot.commands.IntakeLoad;
-import frc.robot.commands.IntakeReverse;
-import frc.robot.commands.IntakeUnload;
-import frc.robot.commands.ShooterReverse;
-import frc.robot.commands.ShooterShoot;
-import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 import frc.robot.subsystems.DriveTrain.DriveTrain;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;

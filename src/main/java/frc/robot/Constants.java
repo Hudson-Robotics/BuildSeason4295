@@ -2,6 +2,23 @@
 package frc.robot;
 
 public final class Constants {
+
+  public static class Speeds {
+    public static final double kArmForward = 0.075;
+    public static final double kArmReverse = 0.05;
+
+    public static final double kClimberClimb = 0.5;
+    public static final double kClimberExtend = 0.5;
+
+    public static final double kIntakeLoad = 0.4;
+    public static final double kIntakeUnload = 0.4;
+    public static final double kIntakeReverse = 0.25;
+
+    public static final double kShooterShoot = 0.5;
+    public static final double kShooterReverse = 0.4;
+
+  }
+
   public static class Ports {
     public static final int kDriverControllerPort = 0;
 
@@ -26,8 +43,9 @@ public final class Constants {
     public static final int kIntake = 13;
     public static final int kShooter = 14;
 
-    public static final int kBackSwitch = 1;
     public static final int kForwardSwitch = 0;
+    public static final int kBackSwitch = 1;
+
   }
 
   public static final double WHEEL_RADIUS_IN_METERS = 0.0508;

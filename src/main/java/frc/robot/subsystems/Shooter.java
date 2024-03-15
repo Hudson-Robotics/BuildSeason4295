@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.Ports;
+import frc.robot.Constants.*;
 import frc.robot.commands.ShooterStop;
 
 public class Shooter extends SubsystemBase {
@@ -14,7 +14,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void Shoot() {
-    shooterMotor.set(0.5);
+    shooterMotor.set(Speeds.kShooterShoot);
   }
 
   public void Stop() {
@@ -22,7 +22,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void Reverse() {
-    shooterMotor.set(-.4);
+    shooterMotor.set(-Speeds.kShooterReverse);
   }
 
   /**

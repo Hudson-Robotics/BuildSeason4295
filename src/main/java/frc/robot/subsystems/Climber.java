@@ -8,7 +8,7 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.ClimberStop;
-import frc.robot.Constants.Ports;
+import frc.robot.Constants.*;
 
 public class Climber extends SubsystemBase {
 
@@ -24,13 +24,13 @@ public class Climber extends SubsystemBase {
     climberRight.set(0);
   }
   public void Climb() {
-    climberLeft.set(0.5);
-    climberRight.set(0.5);
+    climberLeft.set(Speeds.kClimberClimb);
+    climberRight.set(Speeds.kClimberClimb);
   }
 
   public void Extend() {
-    climberLeft.set(-0.5);
-    climberRight.set(-0.5);
+    climberLeft.set(-Speeds.kClimberExtend);
+    climberRight.set(-Speeds.kClimberExtend);
   }
   /**
    * Example command factory method.

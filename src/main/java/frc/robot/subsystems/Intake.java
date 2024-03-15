@@ -7,11 +7,12 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.Ports;
+import frc.robot.Constants.*;
 import frc.robot.commands.IntakeStop;
 
 public class Intake extends SubsystemBase {
   private final TalonFX intakeMotor = new TalonFX(Ports.kIntake);
+
   public Intake() {
     setDefaultCommand(new IntakeStop(this));
   }
@@ -19,15 +20,19 @@ public class Intake extends SubsystemBase {
   public void Stop() {
     intakeMotor.set(0);
   }
+
   public void Load() {
-    intakeMotor.set(0.4);
+    intakeMotor.set(Speeds.kIntakeLoad);
   }
-  public void Unload(){
-    intakeMotor.set(0.4);
+
+  public void Unload() {
+    intakeMotor.set(Speeds.kIntakeUnload);
   }
-  public void Reverse(){
-    intakeMotor.set(-.3);
+
+  public void Reverse() {
+    intakeMotor.set(-Speeds.kIntakeReverse);
   }
+
   /**
    * Example command factory method.
    *
@@ -43,7 +48,8 @@ public class Intake extends SubsystemBase {
   }
 
   /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
+   * An example method querying a boolean state of the subsystem (for example, a
+   * digital sensor).
    *
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
