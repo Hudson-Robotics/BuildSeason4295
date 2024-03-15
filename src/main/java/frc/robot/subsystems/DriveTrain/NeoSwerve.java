@@ -39,6 +39,7 @@ public class NeoSwerve {
         this.Name = Name;
 
         turningPID = new PIDController(kP, kI, kD);
+        turningPID.enableContinuousInput(-Math.PI, Math.PI);
     }
 
     private Rotation2d getAngle() {
