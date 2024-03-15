@@ -4,8 +4,8 @@ package frc.robot;
 public final class Constants {
 
   public static class Speeds {
-    public static final double kArmForward = 0.075;
-    public static final double kArmReverse = 0.05;
+    public static final double kArmForward = 0.1;
+    public static final double kArmReverse = 0.075;
 
     public static final double kClimberClimb = 0.5;
     public static final double kClimberExtend = 0.5;
@@ -21,6 +21,7 @@ public final class Constants {
 
   public static class Ports {
     public static final int kDriverControllerPort = 0;
+    public static final int kOperatorControlPort = 1;
 
     public static final int kFrontLeftTurning = 1;
     public static final int kFrontLeftDrive = 2;

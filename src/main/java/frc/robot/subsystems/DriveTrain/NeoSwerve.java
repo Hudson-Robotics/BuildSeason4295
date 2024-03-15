@@ -62,7 +62,7 @@ public class NeoSwerve {
     public void setDesiredState(SwerveModuleState desiredState) {
         SwerveModuleState optomized = SwerveModuleState.optimize(desiredState, getAngle());
 
-        driveMotor.set(optomized.speedMetersPerSecond / 3);
+        driveMotor.set(optomized.speedMetersPerSecond);
 
         double turningSpeed = turningPID.calculate(getAngle().getRadians(), optomized.angle.getRadians());
         MathUtil.clamp(turningSpeed, -0.25, 0.25);

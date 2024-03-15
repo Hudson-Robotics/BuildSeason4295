@@ -12,7 +12,7 @@ public class Rumble extends Command {
   private int loopCtr;
 
   public Rumble(double level, double time) {
-    m_controller = RobotContainer.xboxController.getHID();
+    m_controller = RobotContainer.xboxDriveController.getHID();
     m_level = level;
     m_time = (int) (time * 50);// 20ms in 1 sec
   }

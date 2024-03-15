@@ -20,8 +20,10 @@ public class RobotContainer {
   private final Intake intake = new Intake();
   private final Arm arm = new Arm();
 
-  public final static CommandXboxController xboxController = new CommandXboxController(
+  public final static CommandXboxController xboxDriveController = new CommandXboxController(
       Ports.kDriverControllerPort);
+  public final static CommandXboxController xboxOperatorController = new CommandXboxController(
+      Ports.kOperatorControlPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -29,24 +31,29 @@ public class RobotContainer {
   public RobotContainer() {
     driveTrain.setDefaultCommand(
         new RunCommand(() -> driveTrain.drive(
-            -xboxController.getLeftY(),
-            xboxController.getLeftX(),
-            -xboxController.getRightX(),
+            -xboxDriveController.getLeftY(),
+            xboxDriveController.getLeftX(),
+            -xboxDriveController.getRightX(),
             false), driveTrain));
 
     configureBindings();
   }
 
   private void configureBindings() {
-    Trigger retract = xboxController.rightBumper();
-    Trigger extend = xboxController.leftBumper();
-    Trigger load = xboxController.b();
-    Trigger shoot = xboxController.x();
-    Trigger forward = xboxController.y();
-    Trigger reverse = xboxController.a();
-    Trigger intakeReverse = xboxController.pov(180);
+    Trigger retract = xboxOperatorController.rightBumper();
+    Trigger extend = xboxOperatorController.leftBumper();
+    Trigger retractLeft = xboxOperatorController.leftTrigger(.5);
+    Trigger retractRight = xboxOperatorController.leftTrigger(.5);
+
+    Trigger load = xboxOperatorController.b();
+    Trigger shoot = xboxOperatorController.x();
+    Trigger forward = xboxOperatorController.y();
+    Trigger reverse = xboxOperatorController.a();
+    Trigger intakeReverse = xboxOperatorController.pov(180);
 
     retract.whileTrue(new ClimberClimb(climber));
+    retractLeft.whileTrue(new ClimberLeftClimb(climber));
+    retractLeft.whileTrue(new ClimberRightClimb(climber));
     extend.whileTrue(new ClimberExtend(climber));
     load.whileTrue(new IntakeLoad(intake));
     shoot.whileTrue(new ShooterShoot(shooter)).whileTrue(new IntakeUnload(intake));
@@ -57,16 +64,19 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new SequentialCommandGroup(
-        new ParallelCommandGroup(
-            new InstantCommand(() -> new ShooterShoot(shooter)),
-            new InstantCommand(() -> new IntakeUnload(intake))).withTimeout(5),
-        new RunCommand(() -> driveTrain.drive(
-            -0.1,
-            0,
-            0,
-            false), driveTrain))
-        .withTimeout(5);
+    return new ParallelCommandGroup(new ShooterShoot(shooter), new IntakeUnload(intake)).withTimeout(5);
+    // return new RunCommand(new ShooterShoot(shooter)).alongWith( new
+    // IntakeUnload(intake)).withTimeout(5) ;
+    // return new SequentialCommandGroup(
+    // return new RunCommand(() ->new ParallelCommandGroup(
+    // new RunCommand(() -> new ShooterShoot(shooter)),
+    // new RunCommand(() -> new IntakeUnload(intake)))); //,
+    // // new RunCommand(() -> driveTrain.drive(
+    // -0.1,
+    // 0,
+    // 0,
+    // false), driveTrain))
+    // .withTimeout(5);
   }
 
 }

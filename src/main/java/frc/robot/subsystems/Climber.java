@@ -14,6 +14,7 @@ public class Climber extends SubsystemBase {
 
   private final CANSparkMax climberLeft = new CANSparkMax(Ports.kClimberLeft, CANSparkMax.MotorType.kBrushless);
   private final CANSparkMax climberRight = new CANSparkMax(Ports.kClimberRight, CANSparkMax.MotorType.kBrushless);
+
   public Climber() {
     climberRight.setInverted(true);
     setDefaultCommand(new ClimberStop(this));
@@ -23,15 +24,25 @@ public class Climber extends SubsystemBase {
     climberLeft.set(0);
     climberRight.set(0);
   }
+
   public void Climb() {
     climberLeft.set(Speeds.kClimberClimb);
     climberRight.set(Speeds.kClimberClimb);
+  }
+
+  public void RightClimb() {
+     climberRight.set(Speeds.kClimberClimb);
+  }
+
+  public void LeftClimb() {
+    climberLeft.set(Speeds.kClimberClimb);
   }
 
   public void Extend() {
     climberLeft.set(-Speeds.kClimberExtend);
     climberRight.set(-Speeds.kClimberExtend);
   }
+
   /**
    * Example command factory method.
    *
@@ -46,14 +57,16 @@ public class Climber extends SubsystemBase {
         });
   }
 
-public Command retract() {   return runOnce(
+  public Command retract() {
+    return runOnce(
         () -> {
           /* one-time action goes here */
-        });}
-
+        });
+  }
 
   /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
+   * An example method querying a boolean state of the subsystem (for example, a
+   * digital sensor).
    *
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
