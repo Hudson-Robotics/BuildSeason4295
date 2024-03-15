@@ -4,7 +4,11 @@ import frc.robot.Constants.Ports;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.DriveTrain.DriveTrain;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -52,13 +56,17 @@ public class RobotContainer {
 
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  // public Command getAutonomousCommand() {
-  // An example command will be run in autonomous
-  // return Autos.exampleAuto(m_exampleSubsystem);
-  // }
+  public Command getAutonomousCommand() {
+    return new SequentialCommandGroup(
+        new ParallelCommandGroup(
+            new InstantCommand(() -> new ShooterShoot(shooter)),
+            new InstantCommand(() -> new IntakeUnload(intake))).withTimeout(5),
+        new RunCommand(() -> driveTrain.drive(
+            -0.1,
+            0,
+            0,
+            false), driveTrain))
+        .withTimeout(5);
+  }
+
 }
