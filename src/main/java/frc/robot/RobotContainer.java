@@ -16,9 +16,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Climber climber = new Climber();
   private final DriveTrain driveTrain = new DriveTrain();
-  private final Shooter shooter = new Shooter();
-  private final Intake intake = new Intake();
-  private final Arm arm = new Arm();
+  // private final Shooter shooter = new Shooter();
+  // private final Intake intake = new Intake();
+  // private final Arm arm = new Arm();
 
   public final static CommandXboxController xboxDriveController = new CommandXboxController(
       Ports.kDriverControllerPort);
@@ -43,7 +43,7 @@ public class RobotContainer {
     Trigger retract = xboxOperatorController.rightBumper();
     Trigger extend = xboxOperatorController.leftBumper();
     Trigger retractLeft = xboxOperatorController.leftTrigger(.5);
-    Trigger retractRight = xboxOperatorController.leftTrigger(.5);
+    Trigger retractRight = xboxOperatorController.rightTrigger(.5);
 
     Trigger load = xboxOperatorController.b();
     Trigger shoot = xboxOperatorController.x();
@@ -53,30 +53,30 @@ public class RobotContainer {
 
     retract.whileTrue(new ClimberClimb(climber));
     retractLeft.whileTrue(new ClimberLeftClimb(climber));
-    retractLeft.whileTrue(new ClimberRightClimb(climber));
+    retractRight.whileTrue(new ClimberRightClimb(climber));
     extend.whileTrue(new ClimberExtend(climber));
-    load.whileTrue(new IntakeLoad(intake));
-    shoot.whileTrue(new ShooterShoot(shooter)).whileTrue(new IntakeUnload(intake));
-    forward.whileTrue(new ArmForward(arm));
-    reverse.whileTrue(new ArmReverse(arm));
-    intakeReverse.whileTrue(new IntakeReverse(intake)).whileTrue(new ShooterReverse(shooter));
+    // load.whileTrue(new IntakeLoad(intake));
+    // shoot.whileTrue(new ShooterShoot(shooter)).whileTrue(new IntakeUnload(intake));
+    // forward.whileTrue(new ArmForward(arm));
+    // reverse.whileTrue(new ArmReverse(arm));
+    // intakeReverse.whileTrue(new IntakeReverse(intake)).whileTrue(new ShooterReverse(shooter));
 
   }
 
-  public Command getAutonomousCommand() {
-    return new ParallelCommandGroup(new ShooterShoot(shooter), new IntakeUnload(intake)).withTimeout(5);
-    // return new RunCommand(new ShooterShoot(shooter)).alongWith( new
-    // IntakeUnload(intake)).withTimeout(5) ;
-    // return new SequentialCommandGroup(
-    // return new RunCommand(() ->new ParallelCommandGroup(
-    // new RunCommand(() -> new ShooterShoot(shooter)),
-    // new RunCommand(() -> new IntakeUnload(intake)))); //,
-    // // new RunCommand(() -> driveTrain.drive(
-    // -0.1,
-    // 0,
-    // 0,
-    // false), driveTrain))
-    // .withTimeout(5);
-  }
+  // public Command getAutonomousCommand() {
+  //   return new ParallelCommandGroup(new ShooterShoot(shooter), new IntakeUnload(intake)).withTimeout(5);
+  //   // return new RunCommand(new ShooterShoot(shooter)).alongWith( new
+  //   // IntakeUnload(intake)).withTimeout(5) ;
+  //   // return new SequentialCommandGroup(
+  //   // return new RunCommand(() ->new ParallelCommandGroup(
+  //   // new RunCommand(() -> new ShooterShoot(shooter)),
+  //   // new RunCommand(() -> new IntakeUnload(intake)))); //,
+  //   // // new RunCommand(() -> driveTrain.drive(
+  //   // -0.1,
+  //   // 0,
+  //   // 0,
+  //   // false), driveTrain))
+  //   // .withTimeout(5);
+  // }
 
 }
