@@ -34,7 +34,7 @@ public class RobotContainer {
             -xboxDriveController.getLeftY(),
             xboxDriveController.getLeftX(),
             -xboxDriveController.getRightX(),
-            false), driveTrain));
+            true), driveTrain));
 
     configureBindings();
   }

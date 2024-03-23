@@ -41,7 +41,13 @@ public class DriveTrain extends SubsystemBase {
     private final SlewRateLimiter slrRot = new SlewRateLimiter(SlewRates.kDriveRot);
 
     public DriveTrain() {
-        navX.reset();
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000); // Wait for the NavX to self calibrate
+                navX.reset(); // Reset the NavX
+            } catch (Exception e) {
+            }
+        }).start();
     }
 
     private SwerveModulePosition[] getSwerveModulePositions() {
@@ -60,7 +66,7 @@ public class DriveTrain extends SubsystemBase {
 
         var swerveModuleStates = kinematics.toSwerveModuleStates(
                 fieldRelative
-                        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, navX.getRotation2d())
+                        ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, navX.getRotation2d().unaryMinus())
                         : new ChassisSpeeds(xSpeed, ySpeed, rot));
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, 9);
 
@@ -115,7 +121,7 @@ public class DriveTrain extends SubsystemBase {
     public void updateOdometry() {
         odometry.update(navX.getRotation2d(), getSwerveModulePositions());
 
-        SmartDashboard.putString("NavX", navX.getRotation2d().toString());
+        SmartDashboard.putString("NavX", navX.getRotation2d().unaryMinus().toString());
         SmartDashboard.putString("FrontLeftAngle", frontLeft.getState().toString());
         SmartDashboard.putString("FrontRightAngle", frontRight.getState().toString());
         SmartDashboard.putString("BackLeftAngle", backLeft.getState().toString());
