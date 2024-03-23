@@ -19,6 +19,12 @@ public final class Constants {
 
   }
 
+  public static class SlewRates {
+    public static final double kDriveX = 1.5;
+    public static final double kDriveY = 1.5;
+    public static final double kDriveRot = 1.5;
+  }
+
   public static class Ports {
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControlPort = 1;

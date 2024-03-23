@@ -60,6 +60,10 @@ public class NeoSwerve {
     }
 
     public void setDesiredState(SwerveModuleState desiredState) {
+        if (Math.abs(desiredState.speedMetersPerSecond) < 0.1) {
+            stop();
+            return;
+        }
         SwerveModuleState optomized = SwerveModuleState.optimize(desiredState, getAngle());
 
         driveMotor.set(optomized.speedMetersPerSecond);
@@ -70,6 +74,11 @@ public class NeoSwerve {
 
         SmartDashboard.putNumber(Name + " Optomized Wheel Speed", optomized.speedMetersPerSecond);
         SmartDashboard.putNumber(Name + " Optomized Wheel Angle", optomized.angle.getRadians());
+    }
+
+    public void stop() {
+        turningMotor.set(0);
+        driveMotor.set(0);
     }
 
     public void updateOdometry() {

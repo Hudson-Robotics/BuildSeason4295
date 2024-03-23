@@ -1,5 +1,6 @@
 package frc.robot.subsystems.DriveTrain;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Ports;
+import frc.robot.Constants.SlewRates;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -34,6 +36,10 @@ public class DriveTrain extends SubsystemBase {
             navX.getRotation2d(),
             getSwerveModulePositions());
 
+    private final SlewRateLimiter slrX = new SlewRateLimiter(SlewRates.kDriveX);
+    private final SlewRateLimiter slrY = new SlewRateLimiter(SlewRates.kDriveY);
+    private final SlewRateLimiter slrRot = new SlewRateLimiter(SlewRates.kDriveRot);
+
     public DriveTrain() {
         navX.reset();
     }
@@ -47,6 +53,11 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+
+        xSpeed = slrX.calculate(xSpeed);
+        ySpeed = slrY.calculate(ySpeed);
+        rot = slrRot.calculate(rot);
+
         var swerveModuleStates = kinematics.toSwerveModuleStates(
                 fieldRelative
                         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, navX.getRotation2d())
