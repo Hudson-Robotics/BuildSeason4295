@@ -42,6 +42,7 @@ public class RobotContainer {
   private void configureBindings() {
     Trigger retract = xboxOperatorController.rightBumper();
     Trigger extend = xboxOperatorController.leftBumper();
+    Trigger resetNavX = xboxDriveController.leftBumper().and(xboxDriveController.rightBumper());
     Trigger retractLeft = xboxOperatorController.leftTrigger(.5);
     Trigger retractRight = xboxOperatorController.rightTrigger(.5);
 
@@ -55,6 +56,7 @@ public class RobotContainer {
     retractLeft.whileTrue(new ClimberLeftClimb(climber));
     retractRight.whileTrue(new ClimberRightClimb(climber));
     extend.whileTrue(new ClimberExtend(climber));
+    resetNavX.onTrue(new InstantCommand(() -> driveTrain.ResetNavX()));
     // load.whileTrue(new IntakeLoad(intake));
     // shoot.whileTrue(new ShooterShoot(shooter)).whileTrue(new IntakeUnload(intake));
     // forward.whileTrue(new ArmForward(arm));
@@ -62,6 +64,15 @@ public class RobotContainer {
     // intakeReverse.whileTrue(new IntakeReverse(intake)).whileTrue(new ShooterReverse(shooter));
 
   }
+
+public Command getAutonomousCommand(){
+  return new RunCommand(() -> driveTrain.drive(
+    -.15,
+    -.05,
+    0,
+    true), driveTrain)
+    .withTimeout(5);
+}
 
   // public Command getAutonomousCommand() {
   //   return new ParallelCommandGroup(new ShooterShoot(shooter), new IntakeUnload(intake)).withTimeout(5);

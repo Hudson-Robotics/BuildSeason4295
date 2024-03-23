@@ -41,6 +41,10 @@ public class DriveTrain extends SubsystemBase {
     private final SlewRateLimiter slrRot = new SlewRateLimiter(SlewRates.kDriveRot);
 
     public DriveTrain() {
+        ResetNavX();
+    }
+
+    public void ResetNavX() {
         new Thread(() -> {
             try {
                 Thread.sleep(1000); // Wait for the NavX to self calibrate
