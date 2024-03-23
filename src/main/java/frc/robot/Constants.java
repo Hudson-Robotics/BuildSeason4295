@@ -19,6 +19,12 @@ public final class Constants {
 
   }
 
+  public static class Positions {
+    public static final double kArmForward = 10;
+    public static final double kArmReverse = 28;
+
+  }
+
   public static class SlewRates {
     public static final double kDriveX = 1.5;
     public static final double kDriveY = 1.5;

@@ -48,7 +48,7 @@ public class Arm extends SubsystemBase {
     PID.setD(0);
     PID.setIZone(0);
     PID.setFF(0.00156);
-   // PID.setFF(0.000156);
+    // PID.setFF(0.000156);
     PID.setOutputRange(-0.3, 0.3);
 
     int smartMotionSlot = 0;
@@ -70,8 +70,8 @@ public class Arm extends SubsystemBase {
     // } else {
     // Rumble rumble = new Rumble(1, 1);
     // }
-    leftPID.setReference(10, CANSparkMax.ControlType.kSmartMotion);
-    rightPID.setReference(10, CANSparkMax.ControlType.kSmartMotion);
+    leftPID.setReference(Positions.kArmForward, CANSparkMax.ControlType.kSmartMotion);
+    rightPID.setReference(Positions.kArmForward, CANSparkMax.ControlType.kSmartMotion);
   }
 
   public void Reverse() {
@@ -81,8 +81,8 @@ public class Arm extends SubsystemBase {
     // } else {
     // Rumble rumble = new Rumble(1, 1);
     // }
-    leftPID.setReference(28, CANSparkMax.ControlType.kSmartMotion);
-    rightPID.setReference(28, CANSparkMax.ControlType.kSmartMotion);
+    leftPID.setReference(Positions.kArmReverse, CANSparkMax.ControlType.kSmartMotion);
+    rightPID.setReference(Positions.kArmReverse, CANSparkMax.ControlType.kSmartMotion);
   }
 
   public boolean FullyForward() {
