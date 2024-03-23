@@ -18,7 +18,7 @@ public class RobotContainer {
   private final DriveTrain driveTrain = new DriveTrain();
   // private final Shooter shooter = new Shooter();
   // private final Intake intake = new Intake();
-  // private final Arm arm = new Arm();
+  private final Arm arm = new Arm();
 
   public final static CommandXboxController xboxDriveController = new CommandXboxController(
       Ports.kDriverControllerPort);
@@ -58,36 +58,39 @@ public class RobotContainer {
     extend.whileTrue(new ClimberExtend(climber));
     resetNavX.onTrue(new InstantCommand(() -> driveTrain.ResetNavX()));
     // load.whileTrue(new IntakeLoad(intake));
-    // shoot.whileTrue(new ShooterShoot(shooter)).whileTrue(new IntakeUnload(intake));
-    // forward.whileTrue(new ArmForward(arm));
-    // reverse.whileTrue(new ArmReverse(arm));
-    // intakeReverse.whileTrue(new IntakeReverse(intake)).whileTrue(new ShooterReverse(shooter));
+    // shoot.whileTrue(new ShooterShoot(shooter)).whileTrue(new
+    // IntakeUnload(intake));
+    forward.whileTrue(new ArmForward(arm));
+    reverse.whileTrue(new ArmReverse(arm));
+    // intakeReverse.whileTrue(new IntakeReverse(intake)).whileTrue(new
+    // ShooterReverse(shooter));
 
   }
 
-public Command getAutonomousCommand(){
-  return new RunCommand(() -> driveTrain.drive(
-    -.15,
-    -.05,
-    0,
-    true), driveTrain)
-    .withTimeout(5);
-}
+  public Command getAutonomousCommand() {
+    return new RunCommand(() -> driveTrain.drive(
+        -.15,
+        -.05,
+        0,
+        true), driveTrain)
+        .withTimeout(5);
+  }
 
   // public Command getAutonomousCommand() {
-  //   return new ParallelCommandGroup(new ShooterShoot(shooter), new IntakeUnload(intake)).withTimeout(5);
-  //   // return new RunCommand(new ShooterShoot(shooter)).alongWith( new
-  //   // IntakeUnload(intake)).withTimeout(5) ;
-  //   // return new SequentialCommandGroup(
-  //   // return new RunCommand(() ->new ParallelCommandGroup(
-  //   // new RunCommand(() -> new ShooterShoot(shooter)),
-  //   // new RunCommand(() -> new IntakeUnload(intake)))); //,
-  //   // // new RunCommand(() -> driveTrain.drive(
-  //   // -0.1,
-  //   // 0,
-  //   // 0,
-  //   // false), driveTrain))
-  //   // .withTimeout(5);
+  // return new ParallelCommandGroup(new ShooterShoot(shooter), new
+  // IntakeUnload(intake)).withTimeout(5);
+  // // return new RunCommand(new ShooterShoot(shooter)).alongWith( new
+  // // IntakeUnload(intake)).withTimeout(5) ;
+  // // return new SequentialCommandGroup(
+  // // return new RunCommand(() ->new ParallelCommandGroup(
+  // // new RunCommand(() -> new ShooterShoot(shooter)),
+  // // new RunCommand(() -> new IntakeUnload(intake)))); //,
+  // // // new RunCommand(() -> driveTrain.drive(
+  // // -0.1,
+  // // 0,
+  // // 0,
+  // // false), driveTrain))
+  // // .withTimeout(5);
   // }
 
 }
