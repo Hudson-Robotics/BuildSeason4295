@@ -1,21 +1,26 @@
 package frc.robot;
 
 import frc.robot.Constants.Ports;
+import frc.robot.Implemented.SparkMaxBrushlessMotor;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.DriveTrain.DriveTrain;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+import frc.robot.Interfaces.Motor;
+import frc.robot.subsystems.DriveTrain.SwerveDrive;
+import frc.robot.subsystems.DriveTrain.SwerveModule;
+
+
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  private final SwerveDrive driveTrain;
+
   private final Climber climber = new Climber();
-  private final DriveTrain driveTrain = new DriveTrain();
   private final Shooter shooter = new Shooter();
   private final Intake intake = new Intake();
   private final Arm arm = new Arm();
@@ -29,12 +34,30 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    Motor topLeftRotationMotor = new SparkMaxBrushlessMotor(0, false);
+    Motor topLeftDriveMotor = new SparkMaxBrushlessMotor(0, false);
+    SwerveModule topLeftSwerveModule = new SwerveModule(topLeftRotationMotor, topLeftDriveMotor, null);
+
+    Motor topRightRotationMotor = new SparkMaxBrushlessMotor(0, false);
+    Motor topRightDriveMotor = new SparkMaxBrushlessMotor(0, false);
+    SwerveModule topRightSwerveModule = new SwerveModule(topRightRotationMotor, topRightDriveMotor, null);
+
+    Motor backLeftRotationMotor = new SparkMaxBrushlessMotor(0, false);
+    Motor backLeftDriveMotor = new SparkMaxBrushlessMotor(0, false);
+    SwerveModule backLeftSwerveModule = new SwerveModule(backLeftRotationMotor, backLeftDriveMotor, null);
+
+    Motor backRightRotationMotor = new SparkMaxBrushlessMotor(0, false);
+    Motor backRightDriveMotor = new SparkMaxBrushlessMotor(0, false);
+    SwerveModule backRightSwerveModule = new SwerveModule(backRightRotationMotor, backRightDriveMotor, null);
+
+    driveTrain = new SwerveDrive(topLeftSwerveModule, topRightSwerveModule, backLeftSwerveModule, backRightSwerveModule);
+
+    //maybe fix commands, where should they live?
     driveTrain.setDefaultCommand(
         new RunCommand(() -> driveTrain.drive(
             -xboxDriveController.getLeftY(),
             xboxDriveController.getLeftX(),
-            -xboxDriveController.getRightX(),
-            true), driveTrain));
+            -xboxDriveController.getRightX()), driveTrain));
 
     configureBindings();
   }
@@ -91,8 +114,7 @@ public class RobotContainer {
     return new RunCommand(() -> driveTrain.drive(
         -.15,
         -.05,
-        0,
-        true), driveTrain)
+        0), driveTrain)
         .withTimeout(5);
   }
 
