@@ -48,8 +48,8 @@ public class Arm extends SubsystemBase {
     PID.setD(0);
     PID.setIZone(0);
     PID.setFF(0.00156);
-    // PID.setFF(0.000156);
-    PID.setOutputRange(-0.3, 0.3);
+    //PID.setFF(0.000156);
+    PID.setOutputRange(-0.3, 0.5);
 
     int smartMotionSlot = 0;
     PID.setSmartMotionMaxVelocity(3000, smartMotionSlot);
@@ -72,6 +72,11 @@ public class Arm extends SubsystemBase {
     // }
     leftPID.setReference(Positions.kArmForward, CANSparkMax.ControlType.kSmartMotion);
     rightPID.setReference(Positions.kArmForward, CANSparkMax.ControlType.kSmartMotion);
+  }
+
+  public void GuesstimateArmForSpeaker() {
+    leftPID.setReference(7.8095, CANSparkMax.ControlType.kSmartMotion);
+    rightPID.setReference(7.8095, CANSparkMax.ControlType.kSmartMotion);
   }
 
   public void Reverse() {

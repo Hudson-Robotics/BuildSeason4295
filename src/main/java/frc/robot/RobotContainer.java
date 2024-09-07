@@ -16,8 +16,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Climber climber = new Climber();
   private final DriveTrain driveTrain = new DriveTrain();
-  // private final Shooter shooter = new Shooter();
-  // private final Intake intake = new Intake();
+  private final Shooter shooter = new Shooter();
+  private final Intake intake = new Intake();
   private final Arm arm = new Arm();
 
   public final static CommandXboxController xboxDriveController = new CommandXboxController(
@@ -40,30 +40,50 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    Trigger retract = xboxOperatorController.rightBumper();
-    Trigger extend = xboxOperatorController.leftBumper();
-    Trigger resetNavX = xboxDriveController.leftBumper().and(xboxDriveController.rightBumper());
-    Trigger retractLeft = xboxOperatorController.leftTrigger(.5);
-    Trigger retractRight = xboxOperatorController.rightTrigger(.5);
+    // Trigger retract = xboxOperatorController.b(); //.rightBumper
+    // Trigger extend = xboxOperatorController.x(); //.leftBumper
+    Trigger resetNavX = xboxDriveController.pov(180);//xboxDriveController.leftBumper().and(xboxDriveController.rightBumper());
+    Trigger retractLeft = xboxDriveController.leftTrigger(.5);
+    Trigger retractRight = xboxDriveController.rightTrigger(.5);
+    Trigger retract = xboxDriveController.rightBumper();
+    Trigger extend = xboxDriveController.leftBumper();
 
-    Trigger load = xboxOperatorController.b();
-    Trigger shoot = xboxOperatorController.x();
+    // Trigger load = xboxOperatorController.rightBumper(); //.b
+    // Trigger shoot = xboxOperatorController.leftBumper(); //.x
     Trigger forward = xboxOperatorController.y();
     Trigger reverse = xboxOperatorController.a();
-    Trigger intakeReverse = xboxOperatorController.pov(180);
+
+    Trigger intakeIn = xboxOperatorController.leftTrigger();
+    Trigger shooterOut = xboxOperatorController.rightTrigger();//pov(90);
+    intakeIn.whileTrue(new IntakeLoad((intake)));
+    shooterOut.whileTrue(new ShooterReverse(shooter));
+
+    Trigger intakeOut = xboxOperatorController.leftBumper();
+    Trigger shooterIn = xboxOperatorController.rightBumper();
+    intakeOut.whileTrue(new IntakeReverse(intake));
+    shooterIn.whileTrue(new ShooterShoot(shooter));
+
+    Trigger setArmPostionForSpeaker = xboxOperatorController.x();
+    setArmPostionForSpeaker.onTrue(new ArmGuesstimateSpeaker(arm));
+
+    // Trigger ShooterReverse = xboxOperatorController.leftTrigger();//pov(270);
+    Trigger IntakeUnload = xboxOperatorController.pov(180);
 
     retract.whileTrue(new ClimberClimb(climber));
     retractLeft.whileTrue(new ClimberLeftClimb(climber));
     retractRight.whileTrue(new ClimberRightClimb(climber));
     extend.whileTrue(new ClimberExtend(climber));
     resetNavX.onTrue(new InstantCommand(() -> driveTrain.ResetNavX()));
-    // load.whileTrue(new IntakeLoad(intake));
-    // shoot.whileTrue(new ShooterShoot(shooter)).whileTrue(new
-    // IntakeUnload(intake));
+
     forward.whileTrue(new ArmForward(arm));
     reverse.whileTrue(new ArmReverse(arm));
-    // intakeReverse.whileTrue(new IntakeReverse(intake)).whileTrue(new
-    // ShooterReverse(shooter));
+
+    // load.whileTrue(new IntakeLoad(intake));
+    // intakeReverse.whileTrue(new IntakeReverse(intake));//.whileTrue(new
+    IntakeUnload.whileTrue(new IntakeUnload(intake));
+    
+    // shoot.whileTrue(new ShooterShoot(shooter));
+    // ShooterReverse.whileTrue(new ShooterReverse(shooter));
 
   }
 

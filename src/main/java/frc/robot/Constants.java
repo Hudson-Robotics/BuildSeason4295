@@ -10,18 +10,18 @@ public final class Constants {
     public static final double kClimberClimb = 0.5;
     public static final double kClimberExtend = 0.5;
 
-    public static final double kIntakeLoad = 0.4;
-    public static final double kIntakeUnload = 0.4;
-    public static final double kIntakeReverse = 0.25;
+    public static final double kIntakeLoad = 0.125;
+    public static final double kIntakeUnload = 0.125; 
+    public static final double kIntakeReverse = 0.375;
 
-    public static final double kShooterShoot = 0.5;
-    public static final double kShooterReverse = 0.4;
+    public static final double kShooterShoot = 0.9;
+    public static final double kShooterReverse = 0.5;
 
   }
 
   public static class Positions {
-    public static final double kArmForward = 10;
-    public static final double kArmReverse = 28;
+    public static final double kArmForward = 3;
+    public static final double kArmReverse = 25;
 
   }
 
@@ -53,8 +53,8 @@ public final class Constants {
     public static final int kArmLeft = 11;
     public static final int kArmRight = 12;
 
-    public static final int kIntake = 13;
-    public static final int kShooter = 14;
+    public static final int kIntake = 14;
+    public static final int kShooter = 13;
 
     public static final int kForwardSwitch = 0;
     public static final int kBackSwitch = 1;

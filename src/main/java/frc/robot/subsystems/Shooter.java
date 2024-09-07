@@ -14,7 +14,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void Shoot() {
-    shooterMotor.set(Speeds.kShooterShoot);
+    shooterMotor.set(-Speeds.kShooterShoot);
   }
 
   public void Stop() {
@@ -22,8 +22,10 @@ public class Shooter extends SubsystemBase {
   }
 
   public void Reverse() {
-    shooterMotor.set(-Speeds.kShooterReverse);
+    shooterMotor.set(Speeds.kShooterReverse);
   }
+
+  //public void 
 
   /**
    * Example command factory method.
