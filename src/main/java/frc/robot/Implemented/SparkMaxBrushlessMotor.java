@@ -4,6 +4,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkMaxAlternateEncoder.Type;
+import com.revrobotics.SparkPIDController;
+
 import frc.robot.Interfaces.Motor;
 
 public class SparkMaxBrushlessMotor implements Motor
@@ -48,5 +50,17 @@ public class SparkMaxBrushlessMotor implements Motor
     public void setInverted(boolean setInverted)
     {
         motor.setInverted(setInverted);
+    }
+
+    @Override
+    public void restoreFactoryDefaults()
+    {
+        motor.restoreFactoryDefaults();
+    }
+
+    @Override
+    public SparkPIDController getPIDController()
+    {
+        return motor.getPIDController();
     }
 }

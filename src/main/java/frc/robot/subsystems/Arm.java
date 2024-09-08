@@ -1,22 +1,18 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
-import frc.robot.commands.ArmStop;
-import frc.robot.commands.Rumble;
+import frc.robot.Interfaces.Motor;
+import frc.robot.commands.Arm.ArmStop;
 
 public class Arm extends SubsystemBase {
-  private final CANSparkMax leftArmMotor = new CANSparkMax(Ports.kArmLeft, CANSparkMax.MotorType.kBrushless);
-  private final CANSparkMax rightArmMotor = new CANSparkMax(Ports.kArmRight, CANSparkMax.MotorType.kBrushless);
-
-  private RelativeEncoder leftMotorEncoder;
-  private RelativeEncoder rightMotorEncoder;
+  private final Motor leftArmMotor;
+  private final Motor rightArmMotor;
 
   private SparkPIDController leftPID;
   private SparkPIDController rightPID;
@@ -24,14 +20,15 @@ public class Arm extends SubsystemBase {
   private final DigitalInput fullyBackSwitch = new DigitalInput(Ports.kBackSwitch);
   private final DigitalInput fullyFwdSwitch = new DigitalInput(Ports.kForwardSwitch);
 
-  public Arm() {
+  public Arm(Motor leftMotor, Motor rightMotor) {
+    this.leftArmMotor = leftMotor;
+    this.rightArmMotor = rightMotor;
+    
+    //This might not be needed - will need to test it
     leftArmMotor.restoreFactoryDefaults();
     rightArmMotor.restoreFactoryDefaults();
 
     rightArmMotor.setInverted(true);
-
-    leftMotorEncoder = leftArmMotor.getEncoder();
-    rightMotorEncoder = rightArmMotor.getEncoder();
 
     leftPID = leftArmMotor.getPIDController();
     rightPID = rightArmMotor.getPIDController();
@@ -59,17 +56,11 @@ public class Arm extends SubsystemBase {
   }
 
   public void Stop() {
-    leftArmMotor.set(0);
-    rightArmMotor.set(0);
+    leftArmMotor.setSpeed(0);
+    rightArmMotor.setSpeed(0);
   }
 
   public void Forward() {
-    // if (FullyForward()) {
-    // leftArmMotor.set(-Speeds.kArmForward);
-    // rightArmMotor.set(-Speeds.kArmForward);
-    // } else {
-    // Rumble rumble = new Rumble(1, 1);
-    // }
     leftPID.setReference(Positions.kArmForward, CANSparkMax.ControlType.kSmartMotion);
     rightPID.setReference(Positions.kArmForward, CANSparkMax.ControlType.kSmartMotion);
   }
@@ -80,12 +71,6 @@ public class Arm extends SubsystemBase {
   }
 
   public void Reverse() {
-    // if (FullyBack()) {
-    // leftArmMotor.set(Speeds.kArmReverse);
-    // rightArmMotor.set(Speeds.kArmReverse);
-    // } else {
-    // Rumble rumble = new Rumble(1, 1);
-    // }
     leftPID.setReference(Positions.kArmReverse, CANSparkMax.ControlType.kSmartMotion);
     rightPID.setReference(Positions.kArmReverse, CANSparkMax.ControlType.kSmartMotion);
   }
@@ -100,8 +85,8 @@ public class Arm extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Left Arm Motor Encoder", leftMotorEncoder.getPosition());
-    SmartDashboard.putNumber("Right Arm Motor Encoder", rightMotorEncoder.getPosition());
+    SmartDashboard.putNumber("Left Arm Motor Encoder", leftArmMotor.getEncoderPosition());
+    SmartDashboard.putNumber("Right Arm Motor Encoder", rightArmMotor.getEncoderPosition());
   }
 
 }
