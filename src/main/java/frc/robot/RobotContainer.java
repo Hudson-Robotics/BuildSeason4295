@@ -3,6 +3,10 @@ package frc.robot;
 import frc.robot.Constants.Ports;
 import frc.robot.Implemented.SparkMaxBrushlessMotor;
 import frc.robot.commands.*;
+import frc.robot.commands.Climber.ClimberClimb;
+import frc.robot.commands.Climber.ClimberExtend;
+import frc.robot.commands.Climber.ClimberLeftClimb;
+import frc.robot.commands.Climber.ClimberRightClimb;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,8 +23,8 @@ import frc.robot.subsystems.DriveTrain.SwerveModule;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveDrive driveTrain;
+  private final Climber climber;
 
-  private final Climber climber = new Climber();
   private final Shooter shooter = new Shooter();
   private final Intake intake = new Intake();
   private final Arm arm = new Arm();
@@ -51,6 +55,10 @@ public class RobotContainer {
     SwerveModule backRightSwerveModule = new SwerveModule(backRightRotationMotor, backRightDriveMotor, null);
 
     driveTrain = new SwerveDrive(topLeftSwerveModule, topRightSwerveModule, backLeftSwerveModule, backRightSwerveModule);
+
+    Motor leftClimberMotor = new SparkMaxBrushlessMotor(0, false);
+    Motor rightClimberMotor = new SparkMaxBrushlessMotor(0, false);
+    climber = new Climber(leftClimberMotor, rightClimberMotor);
 
     //maybe fix commands, where should they live?
     driveTrain.setDefaultCommand(

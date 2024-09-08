@@ -4,79 +4,58 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.ClimberStop;
 import frc.robot.Constants.*;
+import frc.robot.Interfaces.Motor;
 
-public class Climber extends SubsystemBase {
+public class Climber extends SubsystemBase
+{
 
-  private final CANSparkMax climberLeft = new CANSparkMax(Ports.kClimberLeft, CANSparkMax.MotorType.kBrushless);
-  private final CANSparkMax climberRight = new CANSparkMax(Ports.kClimberRight, CANSparkMax.MotorType.kBrushless);
+  private final Motor climberLeft;
+  private final Motor climberRight;
 
-  public Climber() {
+  public Climber(Motor climberLeft, Motor climberRight)
+  {
+    this.climberLeft = climberLeft;
+    this.climberRight = climberRight;
+
     climberRight.setInverted(true);
-    setDefaultCommand(new ClimberStop(this));
+    //setDefaultCommand(new ClimberStop(this)); is this needed, might need to test before I remove it
   }
 
-  public void Stop() {
-    climberLeft.set(0);
-    climberRight.set(0);
+  // These are all Commands, so should we just have commands here
+  // OR Should the Subsystem be only composed of parts (IE... motors and stuff) and leave the command in the commands file
+  public void Stop()
+  {
+    climberLeft.setSpeed(0);
+    climberRight.setSpeed(0);
   }
 
-  public void Climb() {
-    climberLeft.set(Speeds.kClimberClimb);
-    climberRight.set(Speeds.kClimberClimb);
+  public void Climb()
+  {
+    climberLeft.setSpeed(Speeds.kClimberClimb);
+    climberRight.setSpeed(Speeds.kClimberClimb);
   }
 
-  public void RightClimb() {
-     climberRight.set(Speeds.kClimberClimb);
+  public void RightClimb()
+  {
+     climberRight.setSpeed(Speeds.kClimberClimb);
   }
 
-  public void LeftClimb() {
-    climberLeft.set(Speeds.kClimberClimb);
+  public void LeftClimb()
+  {
+    climberLeft.setSpeed(Speeds.kClimberClimb);
   }
 
-  public void Extend() {
-    climberLeft.set(-Speeds.kClimberExtend);
-    climberRight.set(-Speeds.kClimberExtend);
-  }
-
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
-
-  public Command retract() {
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
-
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a
-   * digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
+  public void Extend()
+  {
+    climberLeft.setSpeed(-Speeds.kClimberExtend);
+    climberRight.setSpeed(-Speeds.kClimberExtend);
   }
 
   @Override
-  public void periodic() {
+  public void periodic()
+  {
     // This method will be called once per scheduler run
   }
 

@@ -25,4 +25,6 @@ public interface Motor
     double getEncoderSpeed();
 
     void setEncoderPosition(double position);
+
+    void setInverted(boolean isInverted);
 }

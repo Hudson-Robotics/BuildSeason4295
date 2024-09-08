@@ -43,4 +43,10 @@ public class SparkMaxBrushlessMotor implements Motor
     {
         encoder.setPosition(position);
     }
+
+    @Override
+    public void setInverted(boolean setInverted)
+    {
+        motor.setInverted(setInverted);
+    }
 }
