@@ -8,11 +8,11 @@ import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.Speeds;
 
-public class ShooterReverse extends Command {
+public class Retreat extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Shooter shooter;
 
-  public ShooterReverse(Shooter shooter) {
+  public Retreat(Shooter shooter) {
     this.shooter = shooter;
     addRequirements(shooter);
   }

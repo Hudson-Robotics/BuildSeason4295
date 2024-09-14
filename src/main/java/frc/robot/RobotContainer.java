@@ -13,8 +13,7 @@ import frc.robot.commands.Climber.ClimberRightClimb;
 import frc.robot.commands.Intake.IntakeLoad;
 import frc.robot.commands.Intake.IntakeReverse;
 import frc.robot.commands.Intake.IntakeUnload;
-import frc.robot.commands.Shooter.ShooterReverse;
-import frc.robot.commands.Shooter.ShooterShoot;
+import frc.robot.commands.Shooter.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -85,9 +84,9 @@ public class RobotContainer {
     Trigger IntakeUnload = xboxOperatorController.pov(180);
 
     intakeIn.whileTrue(new IntakeLoad((intake)));
-    shooterOut.whileTrue(new ShooterReverse(shooter));
+    shooterOut.whileTrue(new Retreat(shooter));
     intakeOut.whileTrue(new IntakeReverse(intake));
-    shooterIn.whileTrue(new ShooterShoot(shooter));
+    shooterIn.whileTrue(new Shoot(shooter));
     setArmPostionForSpeaker.onTrue(new ArmGuesstimateSpeaker(arm));
     forward.whileTrue(new ArmForward(arm));
     reverse.whileTrue(new ArmReverse(arm));

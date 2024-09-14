@@ -8,11 +8,11 @@ import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.Speeds;
 
-public class ShooterShoot extends Command {
+public class Shoot extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Shooter shooter;
 
-  public ShooterShoot(Shooter shooter) {
+  public Shoot(Shooter shooter) {
     this.shooter = shooter;
     addRequirements(shooter);
   }
