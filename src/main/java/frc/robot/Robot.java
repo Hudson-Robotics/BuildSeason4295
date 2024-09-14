@@ -1,24 +1,15 @@
 package frc.robot;
 
-import edu.wpi.first.networktables.DoubleArraySubscriber;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
   
-  private DoubleArraySubscriber das; 
   @Override
   public void robotInit() {
-  //  CameraServer.startAutomaticCapture();
-    m_robotContainer = new RobotContainer();
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("TEST");
-    das = table.getDoubleArrayTopic("TEST").subscribe(new double[] {});
+    m_robotContainer = new RobotContainer(); 
   }
 
   @Override
@@ -27,29 +18,17 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+  public void autonomousInit()
+  {
+    m_robotContainer.getAutonomousCommand();
   }
 
   @Override
-  public void teleopInit() {
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
-  }
+  public void teleopInit()
+  {}
 
+  //Should I Create a drive command and call it here?
   @Override
-  public void teleopPeriodic() {
-    double[] areas = das.get();
-    for(double area : areas)
-    {
-      System.out.println(area);
-    }
-    System.out.println();
-  }
-
+  public void teleopPeriodic() 
+  {}
 }

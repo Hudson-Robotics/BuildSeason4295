@@ -147,11 +147,8 @@ public class RobotContainer {
       this.xboxOperatorController = new CommandXboxController(Ports.kOperatorControlPort);
   }
 
-  public Command getAutonomousCommand() {
-    return new RunCommand(() -> driveTrain.drive(
-        -.15,
-        -.05,
-        0), driveTrain)
-        .withTimeout(5);
+  public Command getAutonomousCommand()
+  {
+    return new frc.robot.commands.DriveTrain.DriveStraight(driveTrain);
   }
 }
