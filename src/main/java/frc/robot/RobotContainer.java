@@ -3,7 +3,6 @@ package frc.robot;
 import frc.robot.Constants.Ports;
 import frc.robot.Implemented.SparkMaxBrushlessMotor;
 import frc.robot.Implemented.TalonMotor;
-import frc.robot.commands.*;
 import frc.robot.commands.Arm.ArmForward;
 import frc.robot.commands.Arm.ArmGuesstimateSpeaker;
 import frc.robot.commands.Arm.ArmReverse;
@@ -14,6 +13,8 @@ import frc.robot.commands.Climber.ClimberRightClimb;
 import frc.robot.commands.Intake.IntakeLoad;
 import frc.robot.commands.Intake.IntakeReverse;
 import frc.robot.commands.Intake.IntakeUnload;
+import frc.robot.commands.Shooter.ShooterReverse;
+import frc.robot.commands.Shooter.ShooterShoot;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,8 +34,7 @@ public class RobotContainer {
   private final Climber climber;
   private final Arm arm;
   private final Intake intake;
-
-  private final Shooter shooter = new Shooter();
+  private final Shooter shooter;
 
   public final static CommandXboxController xboxDriveController = new CommandXboxController(
       Ports.kDriverControllerPort);
@@ -74,6 +74,9 @@ public class RobotContainer {
 
     Motor intakeMotor = new TalonMotor(0);
     this.intake = new Intake(intakeMotor);
+
+    Motor shooterMotor = new TalonMotor(0);
+    this.shooter = new Shooter(shooterMotor);
 
     //maybe fix commands, where should they live?
     driveTrain.setDefaultCommand(
