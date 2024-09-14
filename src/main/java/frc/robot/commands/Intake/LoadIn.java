@@ -6,24 +6,25 @@ package frc.robot.commands.Intake;
 
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.Speeds;
 
-public class IntakeReverse extends Command {
+public class LoadIn extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Intake subsystem;
+  private final Intake intake;
 
-  public IntakeReverse(Intake subsystem) {
-    this.subsystem = subsystem;
+  public LoadIn(Intake subsystem) {
+    this.intake = subsystem;
     addRequirements(subsystem);
   }
 
   @Override
   public void initialize() {
-    subsystem.Reverse();
+    intake.setIntakeSpeed(Speeds.kIntakeLoad);
   }
 
   @Override
   public void end(boolean interrupted)
   {
-    subsystem.Stop();
+    intake.setIntakeSpeed(0);
   }
 }

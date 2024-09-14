@@ -10,9 +10,9 @@ import frc.robot.commands.Climber.ClimberClimb;
 import frc.robot.commands.Climber.ClimberExtend;
 import frc.robot.commands.Climber.ClimberLeftClimb;
 import frc.robot.commands.Climber.ClimberRightClimb;
-import frc.robot.commands.Intake.IntakeLoad;
-import frc.robot.commands.Intake.IntakeReverse;
-import frc.robot.commands.Intake.IntakeUnload;
+import frc.robot.commands.Intake.LoadIn;
+import frc.robot.commands.Intake.LoadOut;
+import frc.robot.commands.Intake.PassIn;
 import frc.robot.commands.Shooter.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -83,14 +83,14 @@ public class RobotContainer {
     Trigger setArmPostionForSpeaker = xboxOperatorController.x();
     Trigger IntakeUnload = xboxOperatorController.pov(180);
 
-    intakeIn.whileTrue(new IntakeLoad((intake)));
+    intakeIn.whileTrue(new LoadIn((intake)));
     shooterOut.whileTrue(new Retreat(shooter));
-    intakeOut.whileTrue(new IntakeReverse(intake));
+    intakeOut.whileTrue(new LoadOut(intake));
     shooterIn.whileTrue(new Shoot(shooter));
     setArmPostionForSpeaker.onTrue(new ArmGuesstimateSpeaker(arm));
     forward.whileTrue(new ArmForward(arm));
     reverse.whileTrue(new ArmReverse(arm));
-    IntakeUnload.whileTrue(new IntakeUnload(intake));
+    IntakeUnload.whileTrue(new PassIn(intake));
   }
 
   //wtf java... why you like this
