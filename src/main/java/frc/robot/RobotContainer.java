@@ -3,9 +3,9 @@ package frc.robot;
 import frc.robot.Constants.Ports;
 import frc.robot.Implemented.SparkMaxBrushlessMotor;
 import frc.robot.Implemented.TalonMotor;
-import frc.robot.commands.Arm.ArmForward;
-import frc.robot.commands.Arm.ArmGuesstimateSpeaker;
-import frc.robot.commands.Arm.ArmReverse;
+import frc.robot.commands.Arm.Forward;
+import frc.robot.commands.Arm.Speaker;
+import frc.robot.commands.Arm.Reverse;
 import frc.robot.commands.Climber.Climb;
 import frc.robot.commands.Climber.Extend;
 import frc.robot.commands.Climber.LeftClimb;
@@ -87,9 +87,9 @@ public class RobotContainer {
     shooterOut.whileTrue(new Retreat(shooter));
     intakeOut.whileTrue(new LoadOut(intake));
     shooterIn.whileTrue(new Shoot(shooter));
-    setArmPostionForSpeaker.onTrue(new ArmGuesstimateSpeaker(arm));
-    forward.whileTrue(new ArmForward(arm));
-    reverse.whileTrue(new ArmReverse(arm));
+    setArmPostionForSpeaker.onTrue(new Speaker(arm));
+    forward.whileTrue(new Forward(arm));
+    reverse.whileTrue(new Reverse(arm));
     IntakeUnload.whileTrue(new PassIn(intake));
   }
 

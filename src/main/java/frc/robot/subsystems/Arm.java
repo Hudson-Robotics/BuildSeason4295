@@ -3,12 +3,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.*;
 import frc.robot.Interfaces.PIDMotor;
-import frc.robot.commands.Arm.ArmStop;
 
 public class Arm extends SubsystemBase {
   private final PIDMotor leftArmMotor;
@@ -16,9 +13,6 @@ public class Arm extends SubsystemBase {
 
   private SparkPIDController leftPID;
   private SparkPIDController rightPID;
-
-  private final DigitalInput fullyBackSwitch = new DigitalInput(Ports.kBackSwitch);
-  private final DigitalInput fullyFwdSwitch = new DigitalInput(Ports.kForwardSwitch);
 
   public Arm(PIDMotor leftMotor, PIDMotor rightMotor) {
     this.leftArmMotor = leftMotor;
@@ -35,8 +29,6 @@ public class Arm extends SubsystemBase {
 
     ConfigurePID(leftPID);
     ConfigurePID(rightPID);
-
-    setDefaultCommand(new ArmStop(this));
   }
 
   private void ConfigurePID(SparkPIDController PID) {
@@ -55,32 +47,10 @@ public class Arm extends SubsystemBase {
     PID.setSmartMotionAllowedClosedLoopError(0, smartMotionSlot);
   }
 
-  public void Stop() {
-    leftArmMotor.setSpeed(0);
-    rightArmMotor.setSpeed(0);
-  }
-
-  public void Forward() {
-    leftPID.setReference(Positions.kArmForward, CANSparkMax.ControlType.kSmartMotion);
-    rightPID.setReference(Positions.kArmForward, CANSparkMax.ControlType.kSmartMotion);
-  }
-
-  public void GuesstimateArmForSpeaker() {
-    leftPID.setReference(7.8095, CANSparkMax.ControlType.kSmartMotion);
-    rightPID.setReference(7.8095, CANSparkMax.ControlType.kSmartMotion);
-  }
-
-  public void Reverse() {
-    leftPID.setReference(Positions.kArmReverse, CANSparkMax.ControlType.kSmartMotion);
-    rightPID.setReference(Positions.kArmReverse, CANSparkMax.ControlType.kSmartMotion);
-  }
-
-  public boolean FullyForward() {
-    return fullyFwdSwitch.get();
-  }
-
-  public boolean FullyBack() {
-    return fullyBackSwitch.get();
+  public void setArmPosition(double position)
+  {
+    leftPID.setReference(position, CANSparkMax.ControlType.kSmartMotion);
+    rightPID.setReference(position, CANSparkMax.ControlType.kSmartMotion);
   }
 
   @Override

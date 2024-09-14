@@ -6,24 +6,23 @@ package frc.robot.commands.Arm;
 
 import frc.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.Positions;
 
-public class ArmForward extends Command {
+public class Reverse extends Command {
   private final Arm arm;
 
-  public ArmForward(Arm subsystem) {
-    this.arm = subsystem;
-    addRequirements(subsystem);
+  public Reverse(Arm arm) {
+    this.arm = arm;
+    addRequirements(arm);
   }
 
   @Override
   public void initialize() {
-    arm.Forward();
+    arm.setArmPosition(Positions.kArmReverse);
   }
 
   @Override
   public void end(boolean interrupted)
   {
-    // This could be updated to set the final encoder postion so the arm doesnt keep falling
-    arm.Stop();
   }
 }

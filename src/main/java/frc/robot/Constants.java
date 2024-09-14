@@ -22,6 +22,7 @@ public final class Constants {
   public static class Positions {
     public static final double kArmForward = 3;
     public static final double kArmReverse = 25;
+    public static final double kArmSpeaker = 7.8095;
 
   }
 
