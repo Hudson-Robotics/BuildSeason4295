@@ -16,7 +16,6 @@ import frc.robot.commands.Intake.IntakeUnload;
 import frc.robot.commands.Shooter.ShooterReverse;
 import frc.robot.commands.Shooter.ShooterShoot;
 import frc.robot.subsystems.*;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -27,7 +26,6 @@ import frc.robot.Interfaces.Motor;
 import frc.robot.subsystems.DriveTrain.SwerveDrive;
 import frc.robot.subsystems.DriveTrain.SwerveModule;
 
-
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveDrive driveTrain;
@@ -36,87 +34,29 @@ public class RobotContainer {
   private final Intake intake;
   private final Shooter shooter;
 
-  public final static CommandXboxController xboxDriveController = new CommandXboxController(
-      Ports.kDriverControllerPort);
-  public final static CommandXboxController xboxOperatorController = new CommandXboxController(
-      Ports.kOperatorControlPort);
+  //Controllers
+  private final CommandXboxController xboxDriveController;
+  private final CommandXboxController xboxOperatorController;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // TODO: Need to actually use the values
-    Motor topLeftRotationMotor = new SparkMaxBrushlessMotor(0, false);
-    Motor topLeftDriveMotor = new SparkMaxBrushlessMotor(0, false);
-    SwerveModule topLeftSwerveModule = new SwerveModule(topLeftRotationMotor, topLeftDriveMotor, null);
-
-    Motor topRightRotationMotor = new SparkMaxBrushlessMotor(0, false);
-    Motor topRightDriveMotor = new SparkMaxBrushlessMotor(0, false);
-    SwerveModule topRightSwerveModule = new SwerveModule(topRightRotationMotor, topRightDriveMotor, null);
-
-    Motor backLeftRotationMotor = new SparkMaxBrushlessMotor(0, false);
-    Motor backLeftDriveMotor = new SparkMaxBrushlessMotor(0, false);
-    SwerveModule backLeftSwerveModule = new SwerveModule(backLeftRotationMotor, backLeftDriveMotor, null);
-
-    Motor backRightRotationMotor = new SparkMaxBrushlessMotor(0, false);
-    Motor backRightDriveMotor = new SparkMaxBrushlessMotor(0, false);
-    SwerveModule backRightSwerveModule = new SwerveModule(backRightRotationMotor, backRightDriveMotor, null);
-
-    this.driveTrain = new SwerveDrive(topLeftSwerveModule, topRightSwerveModule, backLeftSwerveModule, backRightSwerveModule);
-
-    Motor leftClimberMotor = new SparkMaxBrushlessMotor(0, false);
-    Motor rightClimberMotor = new SparkMaxBrushlessMotor(0, false);
-    this.climber = new Climber(leftClimberMotor, rightClimberMotor);
-
-    Motor leftArmMotor = new SparkMaxBrushlessMotor(0, false);
-    Motor rightArmMotor = new SparkMaxBrushlessMotor(0, false);
-    this.arm = new Arm(leftArmMotor, rightArmMotor);
-
-    Motor intakeMotor = new TalonMotor(0);
-    this.intake = new Intake(intakeMotor);
-
-    Motor shooterMotor = new TalonMotor(0);
-    this.shooter = new Shooter(shooterMotor);
-
-    //maybe fix commands, where should they live?
-    driveTrain.setDefaultCommand(
-        new RunCommand(() -> driveTrain.drive(
-            -xboxDriveController.getLeftY(),
-            xboxDriveController.getLeftX(),
-            -xboxDriveController.getRightX()), driveTrain));
-
     configureBindings();
   }
 
   private void configureBindings() {
-    // Trigger retract = xboxOperatorController.b(); //.rightBumper
-    // Trigger extend = xboxOperatorController.x(); //.leftBumper
-    Trigger resetNavX = xboxDriveController.pov(180);//xboxDriveController.leftBumper().and(xboxDriveController.rightBumper());
+    this.configureDriverController();
+    this.configureOperatorController();
+  }
+
+  private void configureDriverController()
+  {
+    Trigger resetNavX = xboxDriveController.pov(180);
     Trigger retractLeft = xboxDriveController.leftTrigger(.5);
     Trigger retractRight = xboxDriveController.rightTrigger(.5);
     Trigger retract = xboxDriveController.rightBumper();
     Trigger extend = xboxDriveController.leftBumper();
-
-    // Trigger load = xboxOperatorController.rightBumper(); //.b
-    // Trigger shoot = xboxOperatorController.leftBumper(); //.x
-    Trigger forward = xboxOperatorController.y();
-    Trigger reverse = xboxOperatorController.a();
-
-    Trigger intakeIn = xboxOperatorController.leftTrigger();
-    Trigger shooterOut = xboxOperatorController.rightTrigger();//pov(90);
-    intakeIn.whileTrue(new IntakeLoad((intake)));
-    shooterOut.whileTrue(new ShooterReverse(shooter));
-
-    Trigger intakeOut = xboxOperatorController.leftBumper();
-    Trigger shooterIn = xboxOperatorController.rightBumper();
-    intakeOut.whileTrue(new IntakeReverse(intake));
-    shooterIn.whileTrue(new ShooterShoot(shooter));
-
-    Trigger setArmPostionForSpeaker = xboxOperatorController.x();
-    setArmPostionForSpeaker.onTrue(new ArmGuesstimateSpeaker(arm));
-
-    // Trigger ShooterReverse = xboxOperatorController.leftTrigger();//pov(270);
-    Trigger IntakeUnload = xboxOperatorController.pov(180);
 
     retract.whileTrue(new ClimberClimb(climber));
     retractLeft.whileTrue(new ClimberLeftClimb(climber));
@@ -124,16 +64,87 @@ public class RobotContainer {
     extend.whileTrue(new ClimberExtend(climber));
     resetNavX.onTrue(new InstantCommand(() -> driveTrain.ResetNavX()));
 
+    //Dont like it, but dont know why
+    driveTrain.setDefaultCommand(
+        new RunCommand(() -> driveTrain.drive(
+            -xboxDriveController.getLeftY(),
+            xboxDriveController.getLeftX(),
+            -xboxDriveController.getRightX()), driveTrain));
+  }
+
+  private void configureOperatorController()
+  {
+    Trigger forward = xboxOperatorController.y();
+    Trigger reverse = xboxOperatorController.a();
+    Trigger intakeIn = xboxOperatorController.leftTrigger();
+    Trigger shooterOut = xboxOperatorController.rightTrigger();
+    Trigger intakeOut = xboxOperatorController.leftBumper();
+    Trigger shooterIn = xboxOperatorController.rightBumper();
+    Trigger setArmPostionForSpeaker = xboxOperatorController.x();
+    Trigger IntakeUnload = xboxOperatorController.pov(180);
+
+    intakeIn.whileTrue(new IntakeLoad((intake)));
+    shooterOut.whileTrue(new ShooterReverse(shooter));
+    intakeOut.whileTrue(new IntakeReverse(intake));
+    shooterIn.whileTrue(new ShooterShoot(shooter));
+    setArmPostionForSpeaker.onTrue(new ArmGuesstimateSpeaker(arm));
     forward.whileTrue(new ArmForward(arm));
     reverse.whileTrue(new ArmReverse(arm));
-
-    // load.whileTrue(new IntakeLoad(intake));
-    // intakeReverse.whileTrue(new IntakeReverse(intake));//.whileTrue(new
     IntakeUnload.whileTrue(new IntakeUnload(intake));
-    
-    // shoot.whileTrue(new ShooterShoot(shooter));
-    // ShooterReverse.whileTrue(new ShooterReverse(shooter));
+  }
 
+  //wtf java... why you like this
+  //Instance initializer block for DriveTrain
+  {
+    Motor topLeftRotationMotor = new SparkMaxBrushlessMotor(Ports.kFrontLeftTurning, true);
+    Motor topLeftDriveMotor = new SparkMaxBrushlessMotor(Ports.kFrontLeftDrive, false);
+    SwerveModule topLeftSwerveModule = new SwerveModule(topLeftRotationMotor, topLeftDriveMotor, "Front Left");
+
+    Motor topRightRotationMotor = new SparkMaxBrushlessMotor(Ports.kFrontRightTurning, true);
+    Motor topRightDriveMotor = new SparkMaxBrushlessMotor(Ports.kFrontRightDrive, false);
+    SwerveModule topRightSwerveModule = new SwerveModule(topRightRotationMotor, topRightDriveMotor, "Front Right");
+
+    Motor backLeftRotationMotor = new SparkMaxBrushlessMotor(Ports.kBackLeftTurning, true);
+    Motor backLeftDriveMotor = new SparkMaxBrushlessMotor(Ports.kBackLeftDrive, false);
+    SwerveModule backLeftSwerveModule = new SwerveModule(backLeftRotationMotor, backLeftDriveMotor, "Back Left");
+
+    Motor backRightRotationMotor = new SparkMaxBrushlessMotor(Ports.kBackRightTurning, true);
+    Motor backRightDriveMotor = new SparkMaxBrushlessMotor(Ports.kBackRightDrive, false);
+    SwerveModule backRightSwerveModule = new SwerveModule(backRightRotationMotor, backRightDriveMotor, "Back Right");
+
+    this.driveTrain = new SwerveDrive(topLeftSwerveModule, topRightSwerveModule, backLeftSwerveModule, backRightSwerveModule);
+  }
+
+  //Instance initializer block for Climber
+  {
+    Motor leftClimberMotor = new SparkMaxBrushlessMotor(Ports.kClimberLeft, false);
+    Motor rightClimberMotor = new SparkMaxBrushlessMotor(Ports.kClimberRight, false);
+    this.climber = new Climber(leftClimberMotor, rightClimberMotor);
+  }
+
+  //Instance initializer block for Arm
+  {
+    Motor leftArmMotor = new SparkMaxBrushlessMotor(Ports.kArmLeft, false);
+    Motor rightArmMotor = new SparkMaxBrushlessMotor(Ports.kArmRight, false);
+    this.arm = new Arm(leftArmMotor, rightArmMotor);
+  }
+
+  //Instance initializer block for Intake
+  {
+    Motor intakeMotor = new TalonMotor(Ports.kIntake);
+    this.intake = new Intake(intakeMotor);
+  }
+  
+  //Instance initializer block for Shooter
+  {
+    Motor shooterMotor = new TalonMotor(Ports.kShooter);
+    this.shooter = new Shooter(shooterMotor);
+  }
+
+  //Instance initializer block for Controllers
+  {
+      this.xboxDriveController = new CommandXboxController(Ports.kDriverControllerPort);
+      this.xboxOperatorController = new CommandXboxController(Ports.kOperatorControlPort);
   }
 
   public Command getAutonomousCommand() {
@@ -143,22 +154,4 @@ public class RobotContainer {
         0), driveTrain)
         .withTimeout(5);
   }
-
-  // public Command getAutonomousCommand() {
-  // return new ParallelCommandGroup(new ShooterShoot(shooter), new
-  // IntakeUnload(intake)).withTimeout(5);
-  // // return new RunCommand(new ShooterShoot(shooter)).alongWith( new
-  // // IntakeUnload(intake)).withTimeout(5) ;
-  // // return new SequentialCommandGroup(
-  // // return new RunCommand(() ->new ParallelCommandGroup(
-  // // new RunCommand(() -> new ShooterShoot(shooter)),
-  // // new RunCommand(() -> new IntakeUnload(intake)))); //,
-  // // // new RunCommand(() -> driveTrain.drive(
-  // // -0.1,
-  // // 0,
-  // // 0,
-  // // false), driveTrain))
-  // // .withTimeout(5);
-  // }
-
 }
