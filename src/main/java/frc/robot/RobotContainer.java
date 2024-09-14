@@ -3,6 +3,7 @@ package frc.robot;
 import frc.robot.Constants.Ports;
 import frc.robot.Implemented.SparkMaxBrushlessMotor;
 import frc.robot.Implemented.TalonMotor;
+import frc.robot.commands.AdvancedCommands.AimThenShoot;
 import frc.robot.commands.Arm.Forward;
 import frc.robot.commands.Arm.Speaker;
 import frc.robot.commands.Arm.Reverse;
@@ -15,6 +16,7 @@ import frc.robot.commands.Intake.LoadOut;
 import frc.robot.commands.Intake.PassIn;
 import frc.robot.commands.Shooter.*;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -81,6 +83,7 @@ public class RobotContainer {
     Trigger intakeOut = xboxOperatorController.leftBumper();
     Trigger shooterIn = xboxOperatorController.rightBumper();
     Trigger setArmPostionForSpeaker = xboxOperatorController.x();
+    Trigger aimThenShoot = xboxOperatorController.b();
     Trigger IntakeUnload = xboxOperatorController.pov(180);
 
     intakeIn.whileTrue(new LoadIn((intake)));
@@ -88,6 +91,7 @@ public class RobotContainer {
     intakeOut.whileTrue(new LoadOut(intake));
     shooterIn.whileTrue(new Shoot(shooter));
     setArmPostionForSpeaker.onTrue(new Speaker(arm));
+    aimThenShoot.onTrue(new AimThenShoot(arm, intake, shooter)); //This will be cool if it works
     forward.whileTrue(new Forward(arm));
     reverse.whileTrue(new Reverse(arm));
     IntakeUnload.whileTrue(new PassIn(intake));

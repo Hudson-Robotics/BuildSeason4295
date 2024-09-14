@@ -26,4 +26,15 @@ public class Speaker extends Command {
   {
     
   }
+
+  @Override
+  public boolean isFinished()
+  {
+    double threshold = .01;
+    double lowerBound = Positions.kArmSpeaker * (1 - threshold);
+    double upperBound = Positions.kArmSpeaker * (1 + threshold);
+
+    return lowerBound < arm.getArmPosition() && arm.getArmPosition() < upperBound;
+
+  }
 }

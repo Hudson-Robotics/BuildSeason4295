@@ -53,10 +53,15 @@ public class Arm extends SubsystemBase {
     rightPID.setReference(position, CANSparkMax.ControlType.kSmartMotion);
   }
 
+  public double getArmPosition()
+  {
+    return (leftArmMotor.getEncoderPosition() + leftArmMotor.getEncoderPosition()) / 2;
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Left Arm PIDMotors Encoder", leftArmMotor.getEncoderPosition());
-    SmartDashboard.putNumber("Right Arm PIDMotors Encoder", rightArmMotor.getEncoderPosition());
+    SmartDashboard.putNumber("Right Arm PIDMotors Encoder", leftArmMotor.getEncoderPosition());
   }
 
 }
