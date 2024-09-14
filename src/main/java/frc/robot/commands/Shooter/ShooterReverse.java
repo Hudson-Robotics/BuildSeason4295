@@ -6,24 +6,25 @@ package frc.robot.commands.Shooter;
 
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.Speeds;
 
 public class ShooterReverse extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Shooter subsystem;
+  private final Shooter shooter;
 
-  public ShooterReverse(Shooter subsystem) {
-    this.subsystem = subsystem;
-    addRequirements(subsystem);
+  public ShooterReverse(Shooter shooter) {
+    this.shooter = shooter;
+    addRequirements(shooter);
   }
 
   @Override
   public void initialize() {
-    subsystem.Reverse();
+    shooter.setShooterSpeed(Speeds.kShooterReverse);
   }
 
   @Override
   public void end(boolean interrupted)
   {
-    subsystem.Stop();
+    shooter.setShooterSpeed(0);
   }
 }

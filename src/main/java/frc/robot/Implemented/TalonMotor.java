@@ -1,7 +1,6 @@
 package frc.robot.Implemented;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.revrobotics.SparkPIDController;
 
 import frc.robot.Interfaces.Motor;
 
