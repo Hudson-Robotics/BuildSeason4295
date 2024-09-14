@@ -2,6 +2,7 @@ package frc.robot;
 
 import frc.robot.Constants.Ports;
 import frc.robot.Implemented.SparkMaxBrushlessMotor;
+import frc.robot.Implemented.TalonMotor;
 import frc.robot.commands.*;
 import frc.robot.commands.Arm.ArmForward;
 import frc.robot.commands.Arm.ArmGuesstimateSpeaker;
@@ -10,6 +11,9 @@ import frc.robot.commands.Climber.ClimberClimb;
 import frc.robot.commands.Climber.ClimberExtend;
 import frc.robot.commands.Climber.ClimberLeftClimb;
 import frc.robot.commands.Climber.ClimberRightClimb;
+import frc.robot.commands.Intake.IntakeLoad;
+import frc.robot.commands.Intake.IntakeReverse;
+import frc.robot.commands.Intake.IntakeUnload;
 import frc.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,9 +32,9 @@ public class RobotContainer {
   private final SwerveDrive driveTrain;
   private final Climber climber;
   private final Arm arm;
+  private final Intake intake;
 
   private final Shooter shooter = new Shooter();
-  private final Intake intake = new Intake();
 
   public final static CommandXboxController xboxDriveController = new CommandXboxController(
       Ports.kDriverControllerPort);
@@ -58,15 +62,18 @@ public class RobotContainer {
     Motor backRightDriveMotor = new SparkMaxBrushlessMotor(0, false);
     SwerveModule backRightSwerveModule = new SwerveModule(backRightRotationMotor, backRightDriveMotor, null);
 
-    driveTrain = new SwerveDrive(topLeftSwerveModule, topRightSwerveModule, backLeftSwerveModule, backRightSwerveModule);
+    this.driveTrain = new SwerveDrive(topLeftSwerveModule, topRightSwerveModule, backLeftSwerveModule, backRightSwerveModule);
 
     Motor leftClimberMotor = new SparkMaxBrushlessMotor(0, false);
     Motor rightClimberMotor = new SparkMaxBrushlessMotor(0, false);
-    climber = new Climber(leftClimberMotor, rightClimberMotor);
+    this.climber = new Climber(leftClimberMotor, rightClimberMotor);
 
     Motor leftArmMotor = new SparkMaxBrushlessMotor(0, false);
     Motor rightArmMotor = new SparkMaxBrushlessMotor(0, false);
-    arm = new Arm(leftArmMotor, rightArmMotor);
+    this.arm = new Arm(leftArmMotor, rightArmMotor);
+
+    Motor intakeMotor = new TalonMotor(0);
+    this.intake = new Intake(intakeMotor);
 
     //maybe fix commands, where should they live?
     driveTrain.setDefaultCommand(

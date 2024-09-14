@@ -4,60 +4,37 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
-import frc.robot.commands.IntakeStop;
+import frc.robot.Interfaces.Motor;
+import frc.robot.commands.Intake.IntakeStop;
 
 public class Intake extends SubsystemBase {
-  private final TalonFX intakeMotor = new TalonFX(Ports.kIntake);
+  private final Motor intakeMotor;
 
-  public Intake() {
-    setDefaultCommand(new IntakeStop(this));
+  public Intake(Motor intakeMotor) {
+    this.intakeMotor = intakeMotor;
+    setDefaultCommand(new IntakeStop(this)); // ok with this for now
   }
 
+  //These should be implemented in there own classes
   public void Stop() {
-    intakeMotor.set(0);
+    intakeMotor.setSpeed(0);
   }
 
   public void Load() {
-    intakeMotor.set(Speeds.kIntakeLoad);
+    intakeMotor.setSpeed(Speeds.kIntakeLoad);
   }
 
   public void Unload() {
-    intakeMotor.set(Speeds.kIntakeUnload);
+    intakeMotor.setSpeed(Speeds.kIntakeUnload);
   }
 
   public void Reverse() {
-    intakeMotor.set(-Speeds.kIntakeReverse);
+    intakeMotor.setSpeed(-Speeds.kIntakeReverse);
   }
 
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
-
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a
-   * digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
-  }
-
+  //Could be use to write the speed
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
