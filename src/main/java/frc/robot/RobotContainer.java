@@ -6,10 +6,10 @@ import frc.robot.Implemented.TalonMotor;
 import frc.robot.commands.Arm.ArmForward;
 import frc.robot.commands.Arm.ArmGuesstimateSpeaker;
 import frc.robot.commands.Arm.ArmReverse;
-import frc.robot.commands.Climber.ClimberClimb;
-import frc.robot.commands.Climber.ClimberExtend;
-import frc.robot.commands.Climber.ClimberLeftClimb;
-import frc.robot.commands.Climber.ClimberRightClimb;
+import frc.robot.commands.Climber.Climb;
+import frc.robot.commands.Climber.Extend;
+import frc.robot.commands.Climber.LeftClimb;
+import frc.robot.commands.Climber.RightClimb;
 import frc.robot.commands.Intake.LoadIn;
 import frc.robot.commands.Intake.LoadOut;
 import frc.robot.commands.Intake.PassIn;
@@ -58,10 +58,10 @@ public class RobotContainer {
     Trigger retract = xboxDriveController.rightBumper();
     Trigger extend = xboxDriveController.leftBumper();
 
-    retract.whileTrue(new ClimberClimb(climber));
-    retractLeft.whileTrue(new ClimberLeftClimb(climber));
-    retractRight.whileTrue(new ClimberRightClimb(climber));
-    extend.whileTrue(new ClimberExtend(climber));
+    retract.whileTrue(new Climb(climber));
+    retractLeft.whileTrue(new LeftClimb(climber));
+    retractRight.whileTrue(new RightClimb(climber));
+    extend.whileTrue(new Extend(climber));
     resetNavX.onTrue(new InstantCommand(() -> driveTrain.ResetNavX()));
 
     //Dont like it, but dont know why

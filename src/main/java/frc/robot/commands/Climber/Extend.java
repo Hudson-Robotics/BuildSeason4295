@@ -6,23 +6,24 @@ package frc.robot.commands.Climber;
 
 import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.Speeds;
 
-public class ClimberLeftClimb extends Command {
+public class Extend extends Command {
   private final Climber climber;
 
-  public ClimberLeftClimb(Climber subsystem) {
-    this.climber = subsystem;
-    addRequirements(subsystem);
+  public Extend(Climber climber) {
+    this.climber = climber;
+    addRequirements(climber);
   }
 
   @Override
   public void initialize() {
-    climber.LeftClimb();
+    climber.setClimbSpeed(Speeds.kClimberExtend);
   }
 
   @Override
   public void end(boolean interrupted)
   {
-    //climber.Stop(); //This is wrong... this will stop both
+    climber.setClimbSpeed(0);
   }
 }

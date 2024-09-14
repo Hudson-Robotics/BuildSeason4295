@@ -4,8 +4,8 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.*;
 import frc.robot.Interfaces.PIDMotor;
 
 public class Climber extends SubsystemBase
@@ -20,43 +20,30 @@ public class Climber extends SubsystemBase
     this.climberRight = climberRight;
 
     climberRight.setInverted(true);
-    //setDefaultCommand(new ClimberStop(this)); is this needed, might need to test before I remove it
   }
 
-  // These are all Commands, so should we just have commands here
-  // OR Should the Subsystem be only composed of parts (IE... PIDMotors and stuff) and leave the command in the commands file
-  public void Stop()
+  public void setLeftClimbSpeed(double speed)
   {
-    climberLeft.setSpeed(0);
-    climberRight.setSpeed(0);
+    climberLeft.setSpeed(speed);
   }
 
-  public void Climb()
+  public void setRightClimbSpeed(double speed)
   {
-    climberLeft.setSpeed(Speeds.kClimberClimb);
-    climberRight.setSpeed(Speeds.kClimberClimb);
+    climberRight.setSpeed(speed);
   }
 
-  public void RightClimb()
+  public void setClimbSpeed(double speed)
   {
-     climberRight.setSpeed(Speeds.kClimberClimb);
+    this.setLeftClimbSpeed(speed);
+    this.setRightClimbSpeed(speed);
   }
 
-  public void LeftClimb()
-  {
-    climberLeft.setSpeed(Speeds.kClimberClimb);
-  }
-
-  public void Extend()
-  {
-    climberLeft.setSpeed(-Speeds.kClimberExtend);
-    climberRight.setSpeed(-Speeds.kClimberExtend);
-  }
 
   @Override
   public void periodic()
   {
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Left Climb Speed", climberLeft.getSpeed());
+    SmartDashboard.putNumber("Right Climb Speed", climberRight.getSpeed());
   }
 
 }
