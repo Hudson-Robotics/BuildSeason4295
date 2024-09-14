@@ -6,9 +6,9 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkMaxAlternateEncoder.Type;
 import com.revrobotics.SparkPIDController;
 
-import frc.robot.Interfaces.Motor;
+import frc.robot.Interfaces.PIDMotor;
 
-public class SparkMaxBrushlessMotor implements Motor
+public class SparkMaxBrushlessMotor implements PIDMotor
 {
     final private CANSparkMax motor;
     final private RelativeEncoder encoder;

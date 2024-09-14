@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
-import frc.robot.Interfaces.Motor;
+import frc.robot.Interfaces.PIDMotor;
 import frc.robot.commands.Arm.ArmStop;
 
 public class Arm extends SubsystemBase {
-  private final Motor leftArmMotor;
-  private final Motor rightArmMotor;
+  private final PIDMotor leftArmMotor;
+  private final PIDMotor rightArmMotor;
 
   private SparkPIDController leftPID;
   private SparkPIDController rightPID;
@@ -20,7 +20,7 @@ public class Arm extends SubsystemBase {
   private final DigitalInput fullyBackSwitch = new DigitalInput(Ports.kBackSwitch);
   private final DigitalInput fullyFwdSwitch = new DigitalInput(Ports.kForwardSwitch);
 
-  public Arm(Motor leftMotor, Motor rightMotor) {
+  public Arm(PIDMotor leftMotor, PIDMotor rightMotor) {
     this.leftArmMotor = leftMotor;
     this.rightArmMotor = rightMotor;
     
@@ -85,8 +85,8 @@ public class Arm extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Left Arm Motor Encoder", leftArmMotor.getEncoderPosition());
-    SmartDashboard.putNumber("Right Arm Motor Encoder", rightArmMotor.getEncoderPosition());
+    SmartDashboard.putNumber("Left Arm PIDMotors Encoder", leftArmMotor.getEncoderPosition());
+    SmartDashboard.putNumber("Right Arm PIDMotors Encoder", rightArmMotor.getEncoderPosition());
   }
 
 }

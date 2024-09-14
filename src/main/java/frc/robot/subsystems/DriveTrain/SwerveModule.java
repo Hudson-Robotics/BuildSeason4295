@@ -7,14 +7,14 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
-import frc.robot.Interfaces.Motor;
+import frc.robot.Interfaces.PIDMotor;
 
 
 // look like com.ctre.phoenix6.mechanisms.swerve.SwerveModule has a class for SwerveModule, might be good to implement it
 public class SwerveModule
 {
-    final private Motor rotationMotor;
-    final private Motor driveMotor;
+    final private PIDMotor rotationMotor;
+    final private PIDMotor driveMotor;
 
     final private String name;
 
@@ -25,7 +25,7 @@ public class SwerveModule
     final private PIDController turningPID;
     final private SwerveModulePosition position;
 
-    public SwerveModule(Motor rotationMotor, Motor driveMotor, String name)
+    public SwerveModule(PIDMotor rotationMotor, PIDMotor driveMotor, String name)
     {
         this.rotationMotor = rotationMotor;
         this.driveMotor = driveMotor;
@@ -67,7 +67,7 @@ public class SwerveModule
         }
 
         SwerveModuleState optimized = SwerveModuleState.optimize(desiredState, getAngle());
-        driveMotor.setSpeed(optimized.speedMetersPerSecond); //TODO: this feels wrong, setting the speedMetersPerSecond to a motor that only reads from -1 to 1, VERY SUS
+        driveMotor.setSpeed(optimized.speedMetersPerSecond); //TODO: this feels wrong, setting the speedMetersPerSecond to a PIDMotors that only reads from -1 to 1, VERY SUS
 
         double turningSpeed = turningPID.calculate(getAngle().getRadians(), optimized.angle.getRadians());
         turningSpeed = MathUtil.clamp(turningSpeed, -.25, 25);

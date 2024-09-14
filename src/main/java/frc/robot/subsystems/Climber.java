@@ -6,15 +6,15 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
-import frc.robot.Interfaces.Motor;
+import frc.robot.Interfaces.PIDMotor;
 
 public class Climber extends SubsystemBase
 {
 
-  private final Motor climberLeft;
-  private final Motor climberRight;
+  private final PIDMotor climberLeft;
+  private final PIDMotor climberRight;
 
-  public Climber(Motor climberLeft, Motor climberRight)
+  public Climber(PIDMotor climberLeft, PIDMotor climberRight)
   {
     this.climberLeft = climberLeft;
     this.climberRight = climberRight;
@@ -24,7 +24,7 @@ public class Climber extends SubsystemBase
   }
 
   // These are all Commands, so should we just have commands here
-  // OR Should the Subsystem be only composed of parts (IE... motors and stuff) and leave the command in the commands file
+  // OR Should the Subsystem be only composed of parts (IE... PIDMotors and stuff) and leave the command in the commands file
   public void Stop()
   {
     climberLeft.setSpeed(0);

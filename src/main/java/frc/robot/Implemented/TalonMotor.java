@@ -25,41 +25,4 @@ public class TalonMotor implements Motor
     {
         return motor.get();
     }
-
-    //TODO: This is bad design, will fix it later
-    @Override
-    public double getEncoderPosition() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEncoderPosition'");
-    }
-
-    @Override
-    public double getEncoderSpeed() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEncoderSpeed'");
-    }
-
-    @Override
-    public void setEncoderPosition(double position) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setEncoderPosition'");
-    }
-
-    @Override
-    public void setInverted(boolean isInverted) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setInverted'");
-    }
-
-    @Override
-    public void restoreFactoryDefaults() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'restoreFactoryDefaults'");
-    }
-
-    @Override
-    public SparkPIDController getPIDController() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPIDController'");
-    }
 }

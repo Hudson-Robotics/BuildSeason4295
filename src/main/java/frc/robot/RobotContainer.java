@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.Interfaces.Motor;
+import frc.robot.Interfaces.PIDMotor;
 import frc.robot.subsystems.DriveTrain.SwerveDrive;
 import frc.robot.subsystems.DriveTrain.SwerveModule;
 
@@ -96,20 +97,20 @@ public class RobotContainer {
   //wtf java... why you like this
   //Instance initializer block for DriveTrain
   {
-    Motor topLeftRotationMotor = new SparkMaxBrushlessMotor(Ports.kFrontLeftTurning, true);
-    Motor topLeftDriveMotor = new SparkMaxBrushlessMotor(Ports.kFrontLeftDrive, false);
+    PIDMotor topLeftRotationMotor = new SparkMaxBrushlessMotor(Ports.kFrontLeftTurning, true);
+    PIDMotor topLeftDriveMotor = new SparkMaxBrushlessMotor(Ports.kFrontLeftDrive, false);
     SwerveModule topLeftSwerveModule = new SwerveModule(topLeftRotationMotor, topLeftDriveMotor, "Front Left");
 
-    Motor topRightRotationMotor = new SparkMaxBrushlessMotor(Ports.kFrontRightTurning, true);
-    Motor topRightDriveMotor = new SparkMaxBrushlessMotor(Ports.kFrontRightDrive, false);
+    PIDMotor topRightRotationMotor = new SparkMaxBrushlessMotor(Ports.kFrontRightTurning, true);
+    PIDMotor topRightDriveMotor = new SparkMaxBrushlessMotor(Ports.kFrontRightDrive, false);
     SwerveModule topRightSwerveModule = new SwerveModule(topRightRotationMotor, topRightDriveMotor, "Front Right");
 
-    Motor backLeftRotationMotor = new SparkMaxBrushlessMotor(Ports.kBackLeftTurning, true);
-    Motor backLeftDriveMotor = new SparkMaxBrushlessMotor(Ports.kBackLeftDrive, false);
+    PIDMotor backLeftRotationMotor = new SparkMaxBrushlessMotor(Ports.kBackLeftTurning, true);
+    PIDMotor backLeftDriveMotor = new SparkMaxBrushlessMotor(Ports.kBackLeftDrive, false);
     SwerveModule backLeftSwerveModule = new SwerveModule(backLeftRotationMotor, backLeftDriveMotor, "Back Left");
 
-    Motor backRightRotationMotor = new SparkMaxBrushlessMotor(Ports.kBackRightTurning, true);
-    Motor backRightDriveMotor = new SparkMaxBrushlessMotor(Ports.kBackRightDrive, false);
+    PIDMotor backRightRotationMotor = new SparkMaxBrushlessMotor(Ports.kBackRightTurning, true);
+    PIDMotor backRightDriveMotor = new SparkMaxBrushlessMotor(Ports.kBackRightDrive, false);
     SwerveModule backRightSwerveModule = new SwerveModule(backRightRotationMotor, backRightDriveMotor, "Back Right");
 
     this.driveTrain = new SwerveDrive(topLeftSwerveModule, topRightSwerveModule, backLeftSwerveModule, backRightSwerveModule);
@@ -117,15 +118,15 @@ public class RobotContainer {
 
   //Instance initializer block for Climber
   {
-    Motor leftClimberMotor = new SparkMaxBrushlessMotor(Ports.kClimberLeft, false);
-    Motor rightClimberMotor = new SparkMaxBrushlessMotor(Ports.kClimberRight, false);
+    PIDMotor leftClimberMotor = new SparkMaxBrushlessMotor(Ports.kClimberLeft, false);
+    PIDMotor rightClimberMotor = new SparkMaxBrushlessMotor(Ports.kClimberRight, false);
     this.climber = new Climber(leftClimberMotor, rightClimberMotor);
   }
 
   //Instance initializer block for Arm
   {
-    Motor leftArmMotor = new SparkMaxBrushlessMotor(Ports.kArmLeft, false);
-    Motor rightArmMotor = new SparkMaxBrushlessMotor(Ports.kArmRight, false);
+    PIDMotor leftArmMotor = new SparkMaxBrushlessMotor(Ports.kArmLeft, false);
+    PIDMotor rightArmMotor = new SparkMaxBrushlessMotor(Ports.kArmRight, false);
     this.arm = new Arm(leftArmMotor, rightArmMotor);
   }
 
